@@ -26,6 +26,8 @@ var Watcher = function(opts) {
         path: path
       });
     }
+  }).on('error', function(error) {
+    self.emit('error', error);
   });
 };
 
