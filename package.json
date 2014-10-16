@@ -1,0 +1,9 @@
+{
+  "name": "nevtelen",
+  "private": true,
+  "version": "0.0.1",
+  "description": "Netvelen is an interactive installation where faces are taken on the fly with a camera and lightpainted with a drawbot.",
+  "devDependencies": {
+    "chokidar": "^0.9.0"
+  }
+}

@@ -1,6 +1,10 @@
 # IDE
 .idea
 
+# Data
+data/gcode
+data/jpg
+data/svg
 
 !.gitkeep
 
