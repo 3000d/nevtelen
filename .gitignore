@@ -2,6 +2,9 @@
 .idea
 
 
+!.gitkeep
+
+
 # Logs
 logs
 *.log
