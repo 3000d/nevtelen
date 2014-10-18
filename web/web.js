@@ -14,6 +14,7 @@ var Web = function(drawbot) {
 
   io.on('connection', function(socket) {
     drawbot.logFunction(function(data, err) {
+      console.log(data);
       socket.emit('log', {
         data: data,
         err: err

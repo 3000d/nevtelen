@@ -90,13 +90,13 @@ var Communication = function() {
     this.write('G91');
 
     if(direction === 'up') {
-      this.write('G00 F5000 Y-10');
+      this.write('G00 F2000 Y10');
     } else if(direction === 'down') {
-      this.write('G00 F5000 Y10');
+      this.write('G00 F2000 Y-10');
     } else if(direction === 'left') {
-      this.write('G00 F5000 X-10');
+      this.write('G00 F2000 X-10');
     } else if(direction === 'right') {
-      this.write('G00 F5000 X10');
+      this.write('G00 F2000 X10');
     }
 
     this.write('G90');
