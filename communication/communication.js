@@ -43,8 +43,6 @@ var Communication = function() {
     });
 
     serial.on("open", function () {
-      self.log('-- port opened --');
-
       //get data and log
 
       serial.on('data', function(data) {
@@ -90,13 +88,13 @@ var Communication = function() {
     this.write('G91');
 
     if(direction === 'up') {
-      this.write('G00 F2000 Y10');
+      this.write('G00 F2000 Y20');
     } else if(direction === 'down') {
-      this.write('G00 F2000 Y-10');
+      this.write('G00 F2000 Y-20');
     } else if(direction === 'left') {
-      this.write('G00 F2000 X-10');
+      this.write('G00 F2000 X-20');
     } else if(direction === 'right') {
-      this.write('G00 F2000 X10');
+      this.write('G00 F2000 X20');
     }
 
     this.write('G90');

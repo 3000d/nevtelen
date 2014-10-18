@@ -14,7 +14,7 @@ socket.on('serial-list', function(ports) {
 
 
 socket.on('log', function(data, err) {
-  $log.append(data + '<br>');
+  $log.append(data.data + '<br>');
 });
 
 
