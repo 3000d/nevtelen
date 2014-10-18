@@ -50,7 +50,7 @@ var Communication = function() {
       }
 
       isConnected = true;
-      emit(EVENT.CONNECT);
+      self.emit(EVENT.CONNECT);
 
       serial = new SerialPort(portComName, {
         parser: serialport.parsers.readline("\n"),
@@ -92,7 +92,7 @@ var Communication = function() {
 
   this.disconnect = function() {
     if(serial && isConnected) {
-      emit(EVENT.DISCONNECT);
+      self.emit(EVENT.DISCONNECT);
       serial.close();
       isConnected = false;
     }
@@ -127,7 +127,7 @@ var Communication = function() {
     } else {
       util.log(data);
     }
-    emit(EVENT.LOG, {
+    self.emit(EVENT.LOG, {
       data: data,
       err: err
     });
