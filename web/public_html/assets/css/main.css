@@ -1,0 +1,8 @@
+pre#log {
+    width: 80%;
+    border: solid #ccc 1px;
+    background-color: #fafafa;
+    padding: 10px;
+    height: 150px;
+    overflow-y: auto;
+}

@@ -6,11 +6,14 @@
 
     <script type="text/javascript" src="/vendor/jquery/dist/jquery.min.js"></script>
     <script type="text/javascript" src="/socket.io/socket.io.js"></script>
+
+    <link rel="stylesheet" href="/css/main.css"/>
 </head>
 <body>
 <h1>Node Drawbot</h1>
 <section id="connection">
     <h2>Connection</h2>
+    <p id="connection-feedback"></p>
     <select name="serial-list" id="serial-list"></select>
     <button id="connect">Connect</button>
     <button id="disconnect">Disconnect</button>
@@ -40,6 +43,6 @@
 </section>
 
 
-<script type="text/javascript" src="main.js"></script>
+<script type="text/javascript" src="/js/main.js"></script>
 </body>
 </html>

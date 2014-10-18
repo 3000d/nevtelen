@@ -16,6 +16,7 @@ var Communication = function() {
   var serial;
   var logFunction;
   var self = this;
+  var isConnected = false;
 
   /**
    * get serial ports available
@@ -32,49 +33,55 @@ var Communication = function() {
    * @param portComName
    */
   this.connect = function(portComName) {
-    if(!portComName) {
-      util.error('Called connect but no port defined');
-      return;
-    }
+    if(!isConnected) {
+      isConnected = true;
 
-    serial = new SerialPort(portComName, {
-      parser: serialport.parsers.readline("\n"),
-      baudrate: 57600
-    });
+      if(!portComName) {
+        util.error('Called connect but no port defined');
+        return;
+      }
 
-    serial.on("open", function () {
-      //get data and log
-
-      serial.on('data', function(data) {
-        self.log('in: ' + data);
-
-        //path is clear
-        if(data.indexOf(">") >= 0)
-        {
-          //roger
-          if(!firstArrow && !EOF)
-          {
-            self.log("ready " + setup[index]);
-            serial.write(setup[index] + '\n', function(err, results){
-              if(err) self.log('ERROR ' + err, true);
-              if(results) self.log('results ' + results);
-              firstArrow = true;
-              if(index < setup.length)
-                index++;
-              else
-                EOF = true;
-            });
-          }else
-          {
-            firstArrow = false;
-          }
-        }
+      serial = new SerialPort(portComName, {
+        parser: serialport.parsers.readline("\n"),
+        baudrate: 57600
       });
-    });
+
+      serial.on("open", function () {
+        //get data and log
+
+        serial.on('data', function(data) {
+          self.log('in: ' + data);
+
+          //path is clear
+          if(data.indexOf(">") >= 0)
+          {
+            //roger
+            if(!firstArrow && !EOF)
+            {
+              self.log("ready " + setup[index]);
+              serial.write(setup[index] + '\n', function(err, results){
+                if(err) self.log('ERROR ' + err, true);
+                if(results) self.log('results ' + results);
+                firstArrow = true;
+                if(index < setup.length)
+                  index++;
+                else
+                  EOF = true;
+              });
+            }else
+            {
+              firstArrow = false;
+            }
+          }
+        });
+      });
+    }
   };
 
   this.disconnect = function() {
-    serial.close();
+    if(serial && isConnected)
+      serial.close();
+    isConnected = false;
   };
 
   this.write = function(data) {
@@ -115,7 +122,10 @@ var Communication = function() {
    */
   this.logFunction = function(fct) {
     logFunction = fct;
-  }
+  };
+
+
+  this.isConnected = isConnected;
 };
 
 

@@ -2,6 +2,9 @@ var socket = io();
 
 var $serialListDropdown = $('#serial-list');
 var $log = $('#log');
+var $connect = $('#connect');
+var $disconnect = $('#disconnect');
+var $connectionFeedback = $('#connection-feedback');
 
 /**
  * Receive serial port list
@@ -15,14 +18,21 @@ socket.on('serial-list', function(ports) {
 
 socket.on('log', function(data, err) {
   $log.append(data.data + '<br>');
+  $log.animate({scrollTop: $log.prop('scrollHeight')});
+});
+
+
+socket.on('drawbot connected', function(isConnected) {
+  checkConnected(isConnected);
 });
 
 
 /**
  * Connection
  */
-$('#connect').on('click', function(e) {
+$connect.on('click', function(e) {
   socket.emit('drawbot connect', {port: $serialListDropdown.val()});
+  checkConnected(true);
   e.preventDefault();
 });
 
@@ -30,8 +40,9 @@ $('#connect').on('click', function(e) {
 /**
  * Disconnection
  */
-$('#disconnect').on('click', function(e) {
+$disconnect.on('click', function(e) {
   socket.emit('drawbot disconnect');
+  checkConnected(false);
   e.preventDefault();
 });
 
@@ -99,3 +110,16 @@ $('#write-form').on('submit', function(e) {
   }
   e.preventDefault();
 });
+
+
+function checkConnected(isConnected) {
+  if(isConnected) {
+    $connect.attr('disabled', 'disabled');
+    $disconnect.removeAttr('disabled');
+    $connectionFeedback.html('CONNECTED').css({color: '#0f0'})
+  } else {
+    $connect.removeAttr('disabled');
+    $disconnect.attr('disabled', 'disabled');
+    $connectionFeedback.html('NOT CONNECTED').css({color: '#f00'})
+  }
+}

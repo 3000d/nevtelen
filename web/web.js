@@ -21,6 +21,8 @@ var Web = function(drawbot) {
       })
     });
 
+    socket.emit('drawbot connected', drawbot.isConnected);
+
     drawbot.getSerialPortList(function(ports) {
       socket.emit('serial-list', ports);
     });
