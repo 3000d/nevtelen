@@ -13,11 +13,8 @@ var Web = function(drawbot) {
   });
 
   io.on('connection', function(socket) {
-    drawbot.on('log', function(string, err) {
-      socket.emit('log', {
-        data: string,
-        err: err
-      });
+    drawbot.on('log', function(data, err) {
+      socket.emit('log', data.string, err);
     });
 
     drawbot.on('connected', function() {

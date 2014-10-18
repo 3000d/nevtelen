@@ -21,8 +21,8 @@ var Communication = function() {
 
   var EVENT = {
     PORT_OPENED: 'portOpened',
-    CONNECT: 'connect',
-    DISCONNECT: 'disconnect',
+    CONNECTED: 'connected',
+    DISCONNECTED: 'disconnected',
     LOG: 'log'
   };
 
@@ -50,7 +50,7 @@ var Communication = function() {
       }
 
       isConnected = true;
-      self.emit(EVENT.CONNECT);
+      self.emit(EVENT.CONNECTED);
 
       serial = new SerialPort(portComName, {
         parser: serialport.parsers.readline("\n"),
@@ -92,7 +92,7 @@ var Communication = function() {
 
   this.disconnect = function() {
     if(serial && isConnected) {
-      self.emit(EVENT.DISCONNECT);
+      self.emit(EVENT.DISCONNECTED);
       serial.close();
       isConnected = false;
     }
@@ -128,7 +128,7 @@ var Communication = function() {
       util.log(data);
     }
     self.emit(EVENT.LOG, {
-      data: data,
+      string: data,
       err: err
     });
   };
