@@ -79,9 +79,10 @@ var Communication = function() {
   };
 
   this.disconnect = function() {
-    if(serial && isConnected)
+    if(serial && isConnected) {
       serial.close();
-    isConnected = false;
+      isConnected = false;
+    }
   };
 
   this.write = function(data) {

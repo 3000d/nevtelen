@@ -18,7 +18,7 @@ socket.on('serial-list', function(ports) {
 
 socket.on('log', function(data, err) {
   $log.append(data.data + '<br>');
-  $log.animate({scrollTop: $log.prop('scrollHeight')});
+  $log.scrollTop($log.prop('scrollHeight'));
 });
 
 
