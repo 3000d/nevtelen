@@ -20,7 +20,7 @@
     <h2>Jogging</h2>
     <button id="light-on">Light on</button>
     <button id="light-off">Light off</button>
-    <hr/>
+
     <button id="jog-left"> < </button>
     <button id="jog-right"> > </button>
     <button id="jog-up"> ^ </button>
@@ -28,11 +28,15 @@
 </section>
 
 <section id="communication">
-    <h2>Out</h2>
-    <textarea name="comm-in" id="comm-in" cols="30" rows="10"></textarea>
+    <h2>Write</h2>
 
-    <h2>In</h2>
-    <textarea name="comm-out" id="comm-out" cols="30" rows="10"></textarea>
+    <form action="#" method="post" id="write-form">
+        <input type="text" id="write" name="write"/>
+        <button type="submit">OK</button>
+    </form>
+
+    <h2>Log</h2>
+    <pre id="log"></pre>
 </section>
 
 

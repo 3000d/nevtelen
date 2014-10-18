@@ -13,6 +13,12 @@ var Web = function(drawbot) {
   });
 
   io.on('connection', function(socket) {
+    drawbot.logFunction(function(data, err) {
+      socket.emit('log', {
+        data: data,
+        err: err
+      })
+    });
 
     drawbot.getSerialPortList(function(ports) {
       socket.emit('serial-list', ports);
@@ -20,6 +26,18 @@ var Web = function(drawbot) {
 
     socket.on('drawbot connect', function(data) {
       drawbot.connect(data.port);
+    });
+
+    socket.on('drawbot disconnect', function(data) {
+      drawbot.disconnect();
+    });
+
+    socket.on('drawbot write', function(data) {
+      drawbot.write(data.string);
+    });
+
+    socket.on('drawbot jog', function(data) {
+      drawbot.jog(data.direction);
     });
   });
 
