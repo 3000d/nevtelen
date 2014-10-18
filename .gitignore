@@ -8,6 +8,8 @@ data/svg
 
 !.gitkeep
 
+web/bower_components
+web/public_html/assets/vendor
 
 # Logs
 logs

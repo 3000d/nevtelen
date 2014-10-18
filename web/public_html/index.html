@@ -1,0 +1,41 @@
+<!doctype html>
+<html lang="fr-BE">
+<head>
+    <meta charset="UTF-8">
+    <title>Node Drawbot</title>
+
+    <script type="text/javascript" src="/vendor/jquery/dist/jquery.min.js"></script>
+    <script type="text/javascript" src="/socket.io/socket.io.js"></script>
+</head>
+<body>
+<h1>Node Drawbot</h1>
+<section id="connection">
+    <h2>Connection</h2>
+    <select name="serial-list" id="serial-list"></select>
+    <button id="connect">Connect</button>
+    <button id="disconnect">Disconnect</button>
+</section>
+
+<section id="jog">
+    <h2>Jogging</h2>
+    <button id="light-on">Light on</button>
+    <button id="light-off">Light off</button>
+    <hr/>
+    <button id="jog-left"> < </button>
+    <button id="jog-right"> > </button>
+    <button id="jog-up"> ^ </button>
+    <button id="jog-bottom"> _ </button>
+</section>
+
+<section id="communication">
+    <h2>Out</h2>
+    <textarea name="comm-in" id="comm-in" cols="30" rows="10"></textarea>
+
+    <h2>In</h2>
+    <textarea name="comm-out" id="comm-out" cols="30" rows="10"></textarea>
+</section>
+
+
+<script type="text/javascript" src="main.js"></script>
+</body>
+</html>
