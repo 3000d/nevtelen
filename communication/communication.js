@@ -50,11 +50,12 @@ var Communication = function() {
         //get data and log
 
         serial.on('data', function(data) {
-          self.log('in: ' + data);
 
           //path is clear
           if(data.indexOf(">") >= 0)
           {
+            self.log('in: ' + data);
+
             //roger
             if(!firstArrow && !EOF)
             {
