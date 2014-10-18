@@ -13,15 +13,19 @@ var Web = function(drawbot) {
   });
 
   io.on('connection', function(socket) {
-    drawbot.logFunction(function(data, err) {
-      console.log(data);
+    drawbot.on('log', function(string, err) {
       socket.emit('log', {
-        data: data,
+        data: string,
         err: err
-      })
+      });
     });
 
-    socket.emit('drawbot connected', drawbot.isConnected);
+    drawbot.on('connected', function() {
+      socket.emit('drawbot connected');
+    });
+    drawbot.on('disconnected', function() {
+      socket.emit('drawbot disconnected');
+    });
 
     drawbot.getSerialPortList(function(ports) {
       socket.emit('serial-list', ports);

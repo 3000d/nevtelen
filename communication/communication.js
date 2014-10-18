@@ -1,22 +1,31 @@
-var firstArrow = true;
+var root = require('../root'),
+  fs = require('fs'),
+  util = require('util'),
+  events = require('events'),
+  serialport = require("serialport"),
+  SerialPort = serialport.SerialPort; // localize object constructor
 
-var root = require('../root');
-var fs = require('fs');
-var util = require('util');
-var serialport = require("serialport");
-var SerialPort = serialport.SerialPort; // localize object constructor
+
 
 /**
  * Communication class to talk with the drawbot
  */
 var Communication = function() {
   var setup = fs.readFileSync(root.path + '/communication/setup.gcode').toString().split('\n');
+  var firstArrow = true;
   var index = 0;
   var EOF = false;
   var serial;
-  var logFunction;
   var self = this;
   var isConnected = false;
+
+  var EVENT = {
+    PORT_OPENED: 'portOpened',
+    CONNECT: 'connect',
+    DISCONNECT: 'disconnect',
+    LOG: 'log'
+  };
+
 
   /**
    * get serial ports available
@@ -28,18 +37,20 @@ var Communication = function() {
     });
   };
 
+
   /**
    * Connect to drawbot on given port comName
    * @param portComName
    */
   this.connect = function(portComName) {
     if(!isConnected) {
-      isConnected = true;
-
       if(!portComName) {
         util.error('Called connect but no port defined');
         return;
       }
+
+      isConnected = true;
+      emit(EVENT.CONNECT);
 
       serial = new SerialPort(portComName, {
         parser: serialport.parsers.readline("\n"),
@@ -81,6 +92,7 @@ var Communication = function() {
 
   this.disconnect = function() {
     if(serial && isConnected) {
+      emit(EVENT.DISCONNECT);
       serial.close();
       isConnected = false;
     }
@@ -115,21 +127,15 @@ var Communication = function() {
     } else {
       util.log(data);
     }
-    if(logFunction) logFunction(data, err);
+    emit(EVENT.LOG, {
+      data: data,
+      err: err
+    });
   };
-
-  /**
-   * Used to get log in a custom function
-   * @param fct
-   */
-  this.logFunction = function(fct) {
-    logFunction = fct;
-  };
-
 
   this.isConnected = isConnected;
 };
-
+util.inherits(Communication, events.EventEmitter);
 
 
 /**

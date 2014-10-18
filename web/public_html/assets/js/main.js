@@ -21,9 +21,13 @@ socket.on('log', function(data, err) {
   $log.scrollTop($log.prop('scrollHeight'));
 });
 
+checkConnected(false);
 
-socket.on('drawbot connected', function(isConnected) {
-  checkConnected(isConnected);
+socket.on('drawbot connected', function() {
+  checkConnected(true);
+});
+socket.on('drawbot disconnected', function() {
+  checkConnected(false);
 });
 
 
@@ -32,7 +36,6 @@ socket.on('drawbot connected', function(isConnected) {
  */
 $connect.on('click', function(e) {
   socket.emit('drawbot connect', {port: $serialListDropdown.val()});
-  checkConnected(true);
   e.preventDefault();
 });
 
@@ -42,7 +45,6 @@ $connect.on('click', function(e) {
  */
 $disconnect.on('click', function(e) {
   socket.emit('drawbot disconnect');
-  checkConnected(false);
   e.preventDefault();
 });
 
