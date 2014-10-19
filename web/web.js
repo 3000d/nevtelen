@@ -22,6 +22,7 @@ var Web = function(drawbot) {
     }
 
     drawbot.on('connected', function() {
+      console.log('web.js connected')
       socket.emit('drawbot connected');
     });
     drawbot.on('disconnected', function() {
