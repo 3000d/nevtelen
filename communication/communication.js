@@ -133,7 +133,9 @@ var Communication = function() {
     });
   };
 
-  this.isConnected = isConnected;
+  this.isConnected = function() {
+    return isConnected;
+  }
 };
 util.inherits(Communication, events.EventEmitter);
 
