@@ -47,6 +47,14 @@ var Web = function(drawbot) {
     socket.on('drawbot jog', function(data) {
       drawbot.jog(data.direction);
     });
+
+    socket.on('drawbot go-home', function() {
+      drawbot.write("G00 F2000 X0 Y0");
+    });
+
+    socket.on('drawbot set-home', function() {
+
+    });
   });
 
   this.startServer = function() {

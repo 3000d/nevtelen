@@ -17,12 +17,11 @@ socket.on('serial-list', function(ports) {
 
 
 socket.on('log', function(string, type) {
-  console.log(string + ' ' + type);
   var $string = $('<span/>').html(string);
   if(type === 'error') {
     $string.css({color: '#f00'});
   } else if(type === 'debug') {
-    $string.css({color: '#0f0'});
+    $string.css({color: '#00f'});
   }
 
   $log.append($string[0].outerHTML + '<br>');
@@ -109,6 +108,24 @@ $('#jog-down').on('click', function(e) {
   socket.emit('drawbot jog', {direction: 'down'});
   e.preventDefault();
 });
+
+
+/**
+ * Go home
+ */
+$('#go-home').on('click', function(e) {
+  socket.emit('drawbot go-home');
+  e.preventDefault();
+});
+
+/**
+ * Set home
+ */
+$('#set-home').on('click', function(e) {
+  socket.emit('drawbot set-home');
+});
+
+
 
 /**
  * Write

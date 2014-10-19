@@ -20,7 +20,6 @@ var Communication = function() {
   var isConnected = false;
 
   var EVENT = {
-    PORT_OPENED: 'portOpened',
     CONNECTED: 'connected',
     DISCONNECTED: 'disconnected',
     LOG: 'log'
