@@ -24,6 +24,7 @@ socket.on('log', function(string, err) {
 checkConnected(false);
 
 socket.on('drawbot connected', function() {
+  console.log('drawbot connected');
   checkConnected(true);
 });
 socket.on('drawbot disconnected', function() {
