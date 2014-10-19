@@ -19,8 +19,9 @@ var Communication = function() {
   var self = this;
   var isConnected = false;
 
-  var EVENT = {
+  this.EVENT = {
     CONNECTED: 'connected',
+    PORT_OPENED: 'portOpened',
     DISCONNECTED: 'disconnected',
     LOG: 'log'
   };
@@ -57,6 +58,7 @@ var Communication = function() {
       });
 
       serial.on("open", function () {
+        self.emit(EVENT.PORT_OPENED);
         //get data and log
         self.log('-- [COMM] communication opened on ' + portComName);
 
@@ -185,15 +187,4 @@ var Communication = function() {
  */
 util.inherits(Communication, events.EventEmitter);
 
-
-/**
- * Starting the web server
- * We give the server a Communication instance
- * so that it can interact with the API.
- *
- * this should be done elsewhere
- * (maybe in a more general app.js file)
- */
-var Web = require(root.web + '/web');
-var web = new Web(new Communication());
-web.startServer();
+module.exports = Communication;

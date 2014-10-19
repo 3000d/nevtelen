@@ -1,7 +1,7 @@
 {
-  "name": "nevtelen",
+  "name": "drawbot-web-server",
   "main": "web.js",
-  "version": "0.0.0",
+  "version": "0.0.1",
   "homepage": "https://github.com/3000d/nevtelen",
   "authors": [
     "john <john@3kd.be>"
@@ -19,6 +19,8 @@
     "tests"
   ],
   "dependencies": {
-    "jquery": "~2.1.1"
+    "jquery": "~1.11.1",
+    "bootstrap": "~3.2.0",
+    "font-awesome": "~4.2.0"
   }
 }

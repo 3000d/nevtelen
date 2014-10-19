@@ -3,13 +3,12 @@ var app = express();
 var http = require('http').Server(app);
 var util = require('util');
 var io = require('socket.io')(http);
-var root = require('../root');
 
 var Web = function(drawbot) {
-  app.use(express.static(root.web + '/public_html/assets'));
+  app.use(express.static(__dirname + '/public_html/assets'));
 
   app.get('/', function (req, res) {
-    res.sendFile(root.web + '/public_html/index.html');
+    res.sendFile(__dirname + '/public_html/index.html');
   });
 
   io.on('connection', function(socket) {

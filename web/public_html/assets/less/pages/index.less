@@ -1,0 +1,81 @@
+#content-wrapper {
+    width: 67%;
+    margin-bottom: 150px;
+}
+
+header#page-header {
+    margin-bottom: 30px;
+    padding-bottom: 30px;
+    border-bottom: solid @gray-light 1px;
+}
+
+pre#log {
+    position: fixed;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    width: 30%;
+        border: none;
+    background-color: #333;
+    color: #fff;
+    padding: 30px;
+    overflow-y: auto;
+    margin: 0;
+    border-radius: 0;
+
+    i {
+        font-weight: bold;
+        font-style: normal;
+    }
+}
+
+#serial-list {
+    display: inline;
+    width: 150px;
+}
+
+
+#jogging-container {
+    @button-width: 47px;
+    @button-height: 40px;
+    @width: 3 * @button-width; // 3 times the size of a button
+    @height: 3 * @button-height; // 3 times the size of a button
+
+    .middle() {
+        top: 50%;
+        margin-top: -(@button-height / 2);
+    }
+    .center() {
+        left: 50%;
+        margin-left: -(@button-width / 2);
+    }
+
+    position: relative;
+    width: @width;
+    height: @height;
+    margin-bottom: 20px;
+
+    button {
+        position: absolute;
+    }
+    #go-home {
+        .middle();
+        .center();
+    }
+    #jog-left {
+        .middle();
+        left: 0;
+    }
+    #jog-right {
+        .middle();
+        right: 0;
+    }
+    #jog-up {
+        .center();
+        top: 0;
+    }
+    #jog-down {
+        .center();
+        bottom: 0;
+    }
+}

@@ -8,7 +8,7 @@ var path = require('path'),
   root = require('../root'),
   util = require('util');
 
-var Watcher = require(root.path + '/common/Watcher');
+var Watcher = require(root.common + '/Watcher');
 
 
 

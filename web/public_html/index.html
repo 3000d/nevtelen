@@ -11,46 +11,60 @@
 </head>
 <body>
 <div id="content-wrapper">
-    <h1>Node Drawbot</h1>
-    <section id="connection">
-        <h2>Connection</h2>
-        <p id="connection-feedback"></p>
-        <select name="serial-list" id="serial-list"></select>
-        <button id="connect">Connect</button>
-        <button id="disconnect">Disconnect</button>
-    </section>
+    <div class="container-fluid">
+        <header id="page-header">
+            <h1>Node Drawbot</h1>
+            <p id="connection-feedback">Status: <span class="label"></span></p>
 
-    <section id="jog">
-        <h2>Jogging</h2>
-        <button id="light-on">Light on</button>
-        <button id="light-off">Light off</button>
+            <select class="form-control" name="serial-list" id="serial-list">
+                <option disabled>No serial port detected</option>
+            </select>
+            <button id="connect" class="btn btn-success">Connect</button>
+            <button id="disconnect" class="btn btn-default">Disconnect</button>
+        </header>
 
-        <button id="jog-left"> < </button>
-        <button id="jog-right"> > </button>
-        <button id="jog-up"> ^ </button>
-        <button id="jog-down"> _ </button>
+        <section id="jog">
+            <h2>Movement</h2>
 
-        <button id="go-home">Go home</button>
-        <button id="set-home">Set home</button>
-    </section>
+            <div id="jogging-container">
+                <button id="go-home" class="btn btn-default"> <i class="fa fa-home"></i> </button>
+                <button id="jog-left" class="btn btn-default"> <i class="fa fa-chevron-left"></i> </button>
+                <button id="jog-right" class="btn btn-default"> <i class="fa fa-chevron-right"></i> </button>
+                <button id="jog-up" class="btn btn-default"> <i class="fa fa-chevron-up"></i> </button>
+                <button id="jog-down" class="btn btn-default"> <i class="fa fa-chevron-down"></i> </button>
+            </div>
 
-    <section id="communication">
-        <h2>Write</h2>
+            <button id="light-on" class="btn btn-default">Light on</button>
+            <button id="light-off" class="btn btn-default">Light off</button>
+            <button id="set-home" class="btn btn-default">Set home</button>
+        </section>
 
-        <form action="#" method="post" id="writeLine-form">
-            <input type="text" id="writeLine" name="writeLine"/>
-            <button type="submit">OK</button>
-        </form>
+        <section id="communication">
+            <h2>Write</h2>
 
-        <h2>Batch</h2>
+            <form action="#" method="post" class="form-inline" id="writeLine-form">
+                <div class="form-group">
+                    <input class="form-control" type="text" id="writeLine" name="writeLine"/>
+                    <button type="submit" class="btn btn-default">OK</button>
+                </div>
+            </form>
 
-        <form action="#" method="post" id="write-form">
-            <textarea name="write" id="write" cols="60" rows="20"></textarea>
-            <button type="submit">Send</button>
-        </form>
-    </section>
+            <h2>Batch</h2>
+
+            <form action="#" method="post" id="write-form">
+                <div class="form-group">
+                    <textarea class="form-control" name="write" id="write" cols="60" rows="20">
+                    </textarea>
+                </div>
+                <button type="submit" class="btn btn-default">Send</button>
+            </form>
+        </section>
+    </div>
 </div>
-<pre id="log"></pre>
+<pre id="log">> HELLO, I AM THE CONSOLE.
+
+> I DISPLAY TEXT IN WHITE, DEBUG INFO IN <i class="text-info">BLUE</i>, WARNINGS IN <i class="text-warning">ORANGE</i> AND ERRORS IN <i class="text-danger">RED</i>.
+</pre>
 
 <script type="text/javascript" src="/js/main.js"></script>
 </body>

@@ -10,18 +10,25 @@ var $connectionFeedback = $('#connection-feedback');
  * Receive serial port list
  */
 socket.on('serial-list', function(ports) {
-  for(var i = 0; i < ports.length; i++) {
-    $serialListDropdown.append($('<option />').html(ports[i].comName));
+  if(ports.length) {
+    $serialListDropdown.html('');
+    for(var i = 0; i < ports.length; i++) {
+      $serialListDropdown.append($('<option />').html(ports[i].comName));
+    }
   }
 });
 
 
 socket.on('log', function(string, type) {
-  var $string = $('<span/>').html(string);
+  var $string = $('<i/>').html(string);
   if(type === 'error') {
-    $string.css({color: '#f00'});
+    $string.addClass('text-danger');
   } else if(type === 'debug') {
-    $string.css({color: '#00f'});
+    $string.addClass('text-info');
+  } else if(type === 'warning') {
+    $string.addClass('text-warning');
+  } else if(type === 'success') {
+    $string.addClass('text-success');
   }
 
   $log.append($string[0].outerHTML + '<br>');
@@ -156,10 +163,10 @@ function checkConnected(isConnected) {
   if(isConnected) {
     $connect.attr('disabled', 'disabled');
     $disconnect.removeAttr('disabled');
-    $connectionFeedback.html('CONNECTED').css({color: '#0f0'})
+    $connectionFeedback.find('span').html('CONNECTED').addClass('label-success').removeClass('label-danger');
   } else {
     $connect.removeAttr('disabled');
     $disconnect.attr('disabled', 'disabled');
-    $connectionFeedback.html('NOT CONNECTED').css({color: '#f00'})
+    $connectionFeedback.find('span').html('NOT CONNECTED').addClass('label-danger').removeClass('label-success');
   }
 }
