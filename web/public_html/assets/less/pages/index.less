@@ -9,23 +9,55 @@ header#page-header {
     border-bottom: solid @gray-light 1px;
 }
 
-pre#log {
+#log-container {
+    @input-height: 40px;
+
     position: fixed;
     top: 0;
     right: 0;
     bottom: 0;
     width: 30%;
+
+    pre {
+        margin: 0;
+        overflow-y: auto;
+        color: #fff;
         border: none;
-    background-color: #333;
-    color: #fff;
-    padding: 30px;
-    overflow-y: auto;
-    margin: 0;
-    border-radius: 0;
+        border-radius: 0;
+        padding: 30px;
+        position: absolute;
+        top: 0;
+        width: 100%;
+        bottom: @input-height;
+        background-color: #333;
+    }
 
     i {
         font-weight: bold;
         font-style: normal;
+    }
+
+    #writeLine-form {
+        position: absolute;
+        height: @input-height;
+        bottom: 0;
+        width: 100%;
+
+        input {
+            float: left;
+            width: 80%;
+//            display: block;
+            height: @input-height;
+            padding: 4px;
+        }
+
+        button {
+            float: right;
+            width: 20%;
+            border-radius: 0;
+            border: none;
+            height: @input-height;
+        }
     }
 }
 
@@ -78,4 +110,8 @@ pre#log {
         .center();
         bottom: 0;
     }
+}
+
+#write {
+    height: 200px;
 }

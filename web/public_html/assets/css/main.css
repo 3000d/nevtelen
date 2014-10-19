@@ -8047,23 +8047,48 @@ header#page-header {
   padding-bottom: 30px;
   border-bottom: solid #dfd7ca 1px;
 }
-pre#log {
+#log-container {
   position: fixed;
   top: 0;
   right: 0;
   bottom: 0;
   width: 30%;
-  border: none;
-  background-color: #333;
-  color: #fff;
-  padding: 30px;
-  overflow-y: auto;
-  margin: 0;
-  border-radius: 0;
 }
-pre#log i {
+#log-container pre {
+  margin: 0;
+  overflow-y: auto;
+  color: #fff;
+  border: none;
+  border-radius: 0;
+  padding: 30px;
+  position: absolute;
+  top: 0;
+  width: 100%;
+  bottom: 40px;
+  background-color: #333;
+}
+#log-container i {
   font-weight: bold;
   font-style: normal;
+}
+#log-container #writeLine-form {
+  position: absolute;
+  height: 40px;
+  bottom: 0;
+  width: 100%;
+}
+#log-container #writeLine-form input {
+  float: left;
+  width: 80%;
+  height: 40px;
+  padding: 4px;
+}
+#log-container #writeLine-form button {
+  float: right;
+  width: 20%;
+  border-radius: 0;
+  border: none;
+  height: 40px;
 }
 #serial-list {
   display: inline;
@@ -8103,5 +8128,8 @@ pre#log i {
   left: 50%;
   margin-left: -23.5px;
   bottom: 0;
+}
+#write {
+  height: 200px;
 }
 /*# sourceMappingURL=/public_html/assets/css/main.css.map */

@@ -40,31 +40,25 @@
         </section>
 
         <section id="communication">
-            <h2>Write</h2>
-
-            <form action="#" method="post" class="form-inline" id="writeLine-form">
-                <div class="form-group">
-                    <input class="form-control" type="text" id="writeLine" name="writeLine"/>
-                    <button type="submit" class="btn btn-default">OK</button>
-                </div>
-            </form>
-
             <h2>Batch</h2>
 
             <form action="#" method="post" id="write-form">
                 <div class="form-group">
-                    <textarea class="form-control" name="write" id="write" cols="60" rows="20">
-                    </textarea>
+                    <textarea class="form-control" name="write" id="write" cols="60" rows="20"></textarea>
                 </div>
                 <button type="submit" class="btn btn-default">Send</button>
             </form>
         </section>
     </div>
 </div>
-<pre id="log">> HELLO, I AM THE CONSOLE.
-
-> I DISPLAY TEXT IN WHITE, DEBUG INFO IN <i class="text-info">BLUE</i>, WARNINGS IN <i class="text-warning">ORANGE</i> AND ERRORS IN <i class="text-danger">RED</i>.
+<section id="log-container">
+<pre id="log">> HELLO, I AM THE CONSOLE.<br><br>I DISPLAY TEXT IN WHITE, DEBUG INFO IN <i class="text-info">BLUE</i>, WARNINGS IN <i class="text-warning">ORANGE</i> AND ERRORS IN <i class="text-danger">RED</i>.
 </pre>
+    <form action="#" method="post" id="writeLine-form">
+        <input type="text" id="writeLine" name="writeLine"/>
+        <button type="submit" class="btn btn-default">SEND</button>
+    </form>
+</section>
 
 <script type="text/javascript" src="/js/main.js"></script>
 </body>
