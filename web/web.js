@@ -53,7 +53,7 @@ var Web = function(drawbot) {
     });
 
     socket.on('drawbot set-home', function() {
-
+      drawbot.write("G92 X0 Y0");
     });
   });
 
