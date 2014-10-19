@@ -59,13 +59,16 @@ var Communication = function() {
 
       serial.on("open", function () {
         //get data and log
+        self.log('-- [COMM] communication opened on ' + portComName);
 
         serial.on('data', function(data) {
 
           //path is clear
           if(data.indexOf(">") >= 0)
           {
-            self.log('in: ' + data);
+            if(data.length > 2) {
+              self.log('in: ' + data);
+            }
 
             //roger
             if(!firstArrow && !EOF)
