@@ -148,16 +148,6 @@ var Communication = function() {
       self.emit(EVENT.LOG, string, 'debug');
     }
   };
-
-  this.log = function(string) {
-  };
-
-  this.error = function(string) {
-  };
-
-  this.debug = function(string) {
-
-  }
 };
 
 /**
