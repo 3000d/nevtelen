@@ -17,6 +17,12 @@ var Web = function(drawbot) {
       socket.emit('log', data.string, err);
     });
 
+    if(drawbot.isConnected) {
+      socket.emit('drawbot connected');
+    } else {
+      socket.emit('drawbot disconnected');
+    }
+
     drawbot.on('connected', function() {
       socket.emit('drawbot connected');
     });
