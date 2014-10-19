@@ -104,8 +104,7 @@ var Communication = function() {
   this.write = function(data) {
     if(serial) {
       serial.write(data + '\n', function(err, results) {
-        if(err) self.log('ERROR ' + err, true);
-        if(results) self.log('results ' + results);
+        if(err) self.Log.error('ERROR ' + err, true);
       });
     }
   };

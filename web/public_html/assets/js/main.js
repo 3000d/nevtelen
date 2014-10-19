@@ -17,7 +17,7 @@ socket.on('serial-list', function(ports) {
 
 
 socket.on('log', function(string, type) {
-  console.log(string, type);
+  console.log(string + ' ' + type);
   var $string = $('<span/>').html(string);
   if(type === 'error') {
     $string.css({color: '#f00'});
