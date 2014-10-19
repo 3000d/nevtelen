@@ -25,7 +25,7 @@ socket.on('log', function(string, type) {
     $string.css({color: '#0f0'});
   }
 
-  $log.append($string.html() + '<br>');
+  $log.append($string[0].outerHTML + '<br>');
   $log.scrollTop($log.prop('scrollHeight'));
 });
 
