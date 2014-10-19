@@ -99,10 +99,12 @@ var Communication = function() {
   };
 
   this.write = function(data) {
-    serial.write(data + '\n', function(err, results) {
-      if(err) self.log('ERROR ' + err, true);
-      if(results) self.log('results ' + results);
-    });
+    if(serial) {
+      serial.write(data + '\n', function(err, results) {
+        if(err) self.log('ERROR ' + err, true);
+        if(results) self.log('results ' + results);
+      });
+    }
   };
 
   this.jog = function(direction) {
@@ -133,7 +135,7 @@ var Communication = function() {
     });
   };
 
-  this.isConnected = function() {
+  this.isSerialConnected = function() {
     return isConnected;
   }
 };
