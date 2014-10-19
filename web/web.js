@@ -17,8 +17,7 @@ var Web = function(drawbot) {
       socket.emit('log', data.string, err);
     });
 
-    if(drawbot.isSerialConnected) {
-      console.log('web.js connected ', drawbot.isSerialConnected);
+    if(drawbot.isSerialConnected()) {
       socket.emit('drawbot connected');
     }
 

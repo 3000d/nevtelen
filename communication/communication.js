@@ -43,9 +43,7 @@ var Communication = function() {
    * @param portComName
    */
   this.connect = function(portComName) {
-    console.log('hello connect');
     if(!isConnected) {
-      console.log('yo');
       if(!portComName) {
         util.error('Called connect but no port defined');
         return;
