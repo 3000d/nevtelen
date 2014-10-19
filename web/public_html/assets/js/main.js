@@ -16,8 +16,15 @@ socket.on('serial-list', function(ports) {
 });
 
 
-socket.on('log', function(string, err) {
-  $log.append(string + '<br>');
+socket.on('log', function(string, type) {
+  var $string = $('<span/>').html(string);
+  if(type === 'error') {
+    $string.css({color: '#f00'});
+  } else if(type === 'debug') {
+    $string.css({color: '#0f0'});
+  }
+
+  $log.append($string + '<br>');
   $log.scrollTop($log.prop('scrollHeight'));
 });
 

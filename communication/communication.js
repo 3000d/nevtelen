@@ -59,7 +59,7 @@ var Communication = function() {
 
       serial.on("open", function () {
         //get data and log
-        self.log('-- [COMM] communication opened on ' + portComName);
+        self.Log.trace('-- [COMM] communication opened on ' + portComName);
 
         serial.on('data', function(data) {
 
@@ -67,16 +67,16 @@ var Communication = function() {
           if(data.indexOf(">") >= 0)
           {
             if(data.length > 2) {
-              self.log('in: ' + data);
+              self.Log.trace('in: ' + data);
             }
 
             //roger
             if(!firstArrow && !EOF)
             {
-              self.log("ready " + setup[index]);
+              self.Log.trace("ready " + setup[index]);
               serial.write(setup[index] + '\n', function(err, results){
-                if(err) self.log('ERROR ' + err, true);
-                if(results) self.log('results ' + results);
+                if(err) self.Log.error('ERROR ' + err);
+                if(results) self.Log.debug('results ' + results);
                 firstArrow = true;
                 if(index < setup.length)
                   index++;
@@ -126,22 +126,43 @@ var Communication = function() {
     this.write('G90');
   };
 
-  this.log = function(data, err) {
-    if(err) {
-      util.error(data);
-    } else {
-      util.log(data);
-    }
-    self.emit(EVENT.LOG, {
-      string: data,
-      err: err
-    });
-  };
-
   this.isSerialConnected = function() {
     return isConnected;
+  };
+
+  /**
+   * Logging
+   */
+
+  this.Log = {
+    trace: function(string) {
+      util.log(string);
+      self.emit(EVENT.LOG, string, 'trace');
+    },
+    error: function(string) {
+      util.error(string);
+      self.emit(EVENT.LOG, string, 'error');
+    },
+    debug: function(string) {
+      util.debug(string);
+      self.emit(EVENT.LOG, string, 'debug');
+    }
+  };
+
+  this.log = function(string) {
+  };
+
+  this.error = function(string) {
+  };
+
+  this.debug = function(string) {
+
   }
 };
+
+/**
+ * Prototype inheritance for EventEmitter
+ */
 util.inherits(Communication, events.EventEmitter);
 
 
