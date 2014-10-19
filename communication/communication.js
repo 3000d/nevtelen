@@ -58,22 +58,22 @@ var Communication = function() {
 
       serial.on("open", function () {
         //get data and log
-        self.Log.trace('-- [COMM] communication opened on ' + portComName);
+        self.log('-- [COMM] communication opened on ' + portComName);
 
         serial.on('data', function(data) {
-
           //path is clear
           if(data.indexOf(">") >= 0)
           {
+            // log only when there's relevant information
             if(data.length > 2) {
-              self.Log.trace('in: ' + data);
+              self.log('in: ' + data);
             }
 
             //roger
             if(!firstArrow && !EOF)
             {
-              self.Log.trace("ready " + setup[index]);
-              serial.write(setup[index] + '\n', function(err, results){
+              self.log("ready " + setup[index]);
+              serial.writeLine(setup[index] + '\n', function(err, results){
                 if(err) self.Log.error('ERROR ' + err);
                 if(results) self.Log.debug('results ' + results);
                 firstArrow = true;
@@ -100,36 +100,63 @@ var Communication = function() {
     }
   };
 
-  this.write = function(data) {
+  /**
+   * Send a line to a robot and add a \n
+   * @param string
+   */
+  this.writeLine = function(string) {
     if(serial) {
-      serial.write(data + '\n', function(err, results) {
+      serial.write(string + '\n', function(err, results) {
         if(err) self.Log.error('ERROR ' + err, true);
       });
     }
   };
 
-  this.jog = function(direction) {
-    this.write('G91');
-
-    if(direction === 'up') {
-      this.write('G00 F2000 Y20');
-    } else if(direction === 'down') {
-      this.write('G00 F2000 Y-20');
-    } else if(direction === 'left') {
-      this.write('G00 F2000 X-20');
-    } else if(direction === 'right') {
-      this.write('G00 F2000 X20');
-    }
-
-    this.write('G90');
+  /**
+   * Splits a text in line and send it to robot
+   * @param text
+   */
+  this.write = function(text) {
+    // TODO split text by line and send it to serial
   };
 
+  /**
+   * Move the robot around
+   * @param direction {'up', 'down', 'left', 'right'}
+   */
+  this.jog = function(direction) {
+    this.writeLine('G91');
+
+    if(direction === 'up') {
+      this.writeLine('G00 F2000 Y20');
+    } else if(direction === 'down') {
+      this.writeLine('G00 F2000 Y-20');
+    } else if(direction === 'left') {
+      this.writeLine('G00 F2000 X-20');
+    } else if(direction === 'right') {
+      this.writeLine('G00 F2000 X20');
+    }
+
+    this.writeLine('G90');
+  };
+
+  /**
+   * Check if we're connected to drawbot.
+   * Useful when a user connects, so we can
+   * directly tell him the state of the robot
+   * @returns {boolean}
+   */
   this.isSerialConnected = function() {
     return isConnected;
   };
 
+
   /**
    * Logging
+   *
+   * trace: for output purpose
+   * error: for errors (displayed in red on web page)
+   * debug: only for debugging, temporary logs (displayed in blue on web page)
    */
 
   this.Log = {
@@ -146,6 +173,11 @@ var Communication = function() {
       self.emit(EVENT.LOG, string, 'debug');
     }
   };
+
+  // proxy method for confort
+  this.log = function(string) {
+    this.Log.trace(string);
+  }
 };
 
 /**
@@ -155,7 +187,12 @@ util.inherits(Communication, events.EventEmitter);
 
 
 /**
- * Web server
+ * Starting the web server
+ * We give the server a Communication instance
+ * so that it can interact with the API.
+ *
+ * this should be done elsewhere
+ * (maybe in a more general app.js file)
  */
 var Web = require(root.web + '/web');
 var web = new Web(new Communication());

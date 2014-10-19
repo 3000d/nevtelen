@@ -36,12 +36,16 @@ var Web = function(drawbot) {
       drawbot.connect(data.port);
     });
 
-    socket.on('drawbot disconnect', function(data) {
+    socket.on('drawbot disconnect', function() {
       drawbot.disconnect();
     });
 
-    socket.on('drawbot write', function(data) {
-      drawbot.write(data.string);
+    socket.on('drawbot writeLine', function(string) {
+      drawbot.writeLine(string);
+    });
+
+    socket.on('drawbot write', function(text) {
+      drawbot.write(text);
     });
 
     socket.on('drawbot jog', function(data) {

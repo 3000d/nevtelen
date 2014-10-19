@@ -1,8 +1,16 @@
+#content-wrapper {
+    width: 60%;
+}
+
 pre#log {
-    width: 80%;
+    position: absolute;
+    top: 0;
+    right: 10px;
+    bottom: 10px    ;
+    width: 40%;
     border: solid #ccc 1px;
     background-color: #fafafa;
     padding: 10px;
-    height: 150px;
+    /*height: 90%;*/
     overflow-y: auto;
 }

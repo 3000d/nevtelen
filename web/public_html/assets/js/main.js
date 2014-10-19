@@ -128,13 +128,26 @@ $('#set-home').on('click', function(e) {
 
 
 /**
- * Write
+ * Write a line
+ */
+$('#writeLine-form').on('submit', function(e) {
+  var dataToWrite = $('#writeLine').val();
+  if(dataToWrite) {
+    socket.emit('drawbot writeLine', dataToWrite);
+  }
+  e.preventDefault();
+});
+
+/**
+ * Write text
  */
 $('#write-form').on('submit', function(e) {
-  var dataToWrite = $('#write').val();
-  if(dataToWrite) {
-    socket.emit('drawbot write', {string: dataToWrite});
+  var text = $('#write').val();
+
+  if(text) {
+    socket.emit('drawbot write', text);
   }
+
   e.preventDefault();
 });
 
