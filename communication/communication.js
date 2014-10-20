@@ -119,8 +119,9 @@ var Communication = function() {
   */
   this.batch = function(text) {
     var oldSize = cmdBuffer.length;
-    cmdBuffer.concat(text.split('\n'));
+    cmdBuffer = cmdBuffer.concat(text.split('\n'));
     self.Log.debug("commands : " + text);
+    self.Log.debug(text.split('\n').length);
     self.Log.debug('Pushed ' + (cmdBuffer.length - oldSize) + ' new command in Buffer');
   };
 
