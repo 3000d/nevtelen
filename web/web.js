@@ -58,6 +58,14 @@ var Web = function(drawbot) {
     socket.on('drawbot set-home', function() {
       drawbot.write("G92 X0 Y0");
     });
+
+    socket.on('drawbot lights', function(on) {
+      if(on) {
+        drawbot.write('G00 F2000 Z255');
+      } else {
+        drawbot.write('G00 F2000 Z0');
+      }
+    });
   });
 
   this.startServer = function() {

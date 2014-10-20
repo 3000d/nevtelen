@@ -76,7 +76,7 @@ $('#lights-on').on('click', function(e) {
  * Turn the light off
  */
 $('#lights-off').on('click', function(e) {
-  socket.emit('drawbot lights-off', {on: false});
+  socket.emit('drawbot lights', {on: false});
   e.preventDefault();
 });
 
