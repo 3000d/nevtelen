@@ -1,8 +1,8 @@
 {
-  "name": "nevtelen",
+  "name": "drawbot-web-server",
   "private": true,
   "version": "0.0.1",
-  "description": "Netvelen is an interactive installation where faces are taken on the fly with a camera and lightpainted with a drawbot.",
+  "description": "Control a drawbot in the browser",
   "devDependencies": {
     "bower": "~1.3.5",
     "grunt": "~0.4.5",
@@ -11,8 +11,6 @@
     "load-grunt-tasks": "~0.6.0"
   },
   "dependencies": {
-    "chokidar": "^0.9.0",
-    "serialport": "",
     "express": "^4.9.8",
     "socket.io": "^1.1.0"
   }

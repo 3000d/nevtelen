@@ -1,0 +1,65 @@
+<!doctype html>
+<html lang="fr-BE">
+<head>
+    <meta charset="UTF-8">
+    <title>Node Drawbot</title>
+
+    <script type="text/javascript" src="/vendor/jquery/dist/jquery.min.js"></script>
+    <script type="text/javascript" src="/socket.io/socket.io.js"></script>
+
+    <link rel="stylesheet" href="/css/main.css"/>
+</head>
+<body>
+<div id="content-wrapper">
+    <div class="container-fluid">
+        <header id="page-header">
+            <h1>Node Drawbot</h1>
+            <p id="connection-feedback">Status: <span class="label"></span></p>
+
+            <select class="form-control" name="serial-list" id="serial-list">
+                <option disabled>No serial port detected</option>
+            </select>
+            <button id="connect" class="btn btn-success">Connect</button>
+            <button id="disconnect" class="btn btn-default">Disconnect</button>
+        </header>
+
+        <section id="jog">
+            <h2>Movement</h2>
+
+            <div id="jogging-container">
+                <button id="go-home" class="btn btn-default"> <i class="fa fa-home"></i> </button>
+                <button id="jog-left" class="btn btn-default"> <i class="fa fa-chevron-left"></i> </button>
+                <button id="jog-right" class="btn btn-default"> <i class="fa fa-chevron-right"></i> </button>
+                <button id="jog-up" class="btn btn-default"> <i class="fa fa-chevron-up"></i> </button>
+                <button id="jog-down" class="btn btn-default"> <i class="fa fa-chevron-down"></i> </button>
+            </div>
+
+            <button id="light-on" class="btn btn-default">Light on</button>
+            <button id="light-off" class="btn btn-default">Light off</button>
+            <button id="set-home" class="btn btn-default">Set home</button>
+        </section>
+
+        <section id="communication">
+            <h2>Batch</h2>
+
+            <form action="#" method="post" id="write-form">
+                <div class="form-group">
+                    <textarea class="form-control" name="write" id="write" cols="60" rows="20"></textarea>
+                </div>
+                <button type="submit" class="btn btn-default">Send</button>
+            </form>
+        </section>
+    </div>
+</div>
+<section id="log-container">
+<pre id="log">> HELLO, I AM THE CONSOLE.<br><br>I DISPLAY TEXT IN WHITE, DEBUG INFO IN <i class="text-info">BLUE</i>, WARNINGS IN <i class="text-warning">ORANGE</i> AND ERRORS IN <i class="text-danger">RED</i>.
+</pre>
+    <form action="#" method="post" id="writeLine-form">
+        <input type="text" id="writeLine" name="writeLine"/>
+        <button type="submit" class="btn btn-default">SEND</button>
+    </form>
+</section>
+
+<script type="text/javascript" src="/js/main.js"></script>
+</body>
+</html>
