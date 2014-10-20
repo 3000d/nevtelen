@@ -66,8 +66,8 @@ $disconnect.on('click', function(e) {
 /**
  * Turn the light on
  */
-$('#lights-on').on('click', function(e) {
-  socket.emit('drawbot lights', {on: true});
+$('#light-on').on('click', function(e) {
+  socket.emit('drawbot light', {on: true});
   e.preventDefault();
 });
 
@@ -75,8 +75,8 @@ $('#lights-on').on('click', function(e) {
 /**
  * Turn the light off
  */
-$('#lights-off').on('click', function(e) {
-  socket.emit('drawbot lights-off', {on: false});
+$('#light-off').on('click', function(e) {
+  socket.emit('drawbot light', {on: false});
   e.preventDefault();
 });
 

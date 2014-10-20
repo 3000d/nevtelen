@@ -52,11 +52,19 @@ var Web = function(drawbot) {
     });
 
     socket.on('drawbot go-home', function() {
-      drawbot.write("G00 F2000 X0 Y0");
+      drawbot.writeLine("G00 F2000 X0 Y0");
     });
 
     socket.on('drawbot set-home', function() {
-      drawbot.write("G92 X0 Y0");
+      drawbot.writeLine("G92 X0 Y0");
+    });
+
+    socket.on('drawbot light', function(data) {
+      if(data.on) {
+        drawbot.writeLine('G00 F2000 Z255');
+      } else {
+        drawbot.writeLine('G00 F2000 Z0');
+      }
     });
   });
 
