@@ -33,5 +33,5 @@ gcodeWatcher.on('fileAdded', function(evt) {
   util.log('[new GCODE] ' + evt.path + ' added');
 
   // TODO get text from gcode file
-  //communication.write(gcode_text);
+  // communication.batch();
 });
