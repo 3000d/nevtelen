@@ -106,10 +106,12 @@ var Communication = function() {
     // TODO : split text by line and send it to serial
     if(serial) {
       var cmd = cmdBuffer.splice(0, 1);
-      self.Log.debug('SENDING : ' + cmd);
-      serial.write(cmd + '\n', function(err, results) {
-        if(err) self.Log.error('ERROR ' + err, true);
-      });
+      if(cmd.length){
+        self.Log.debug('SENDING : ' + cmd);
+        serial.write(cmd + '\n', function(err, results) {
+          if(err) self.Log.error('ERROR ' + err, true);
+        });
+      }
     }
   };
 
