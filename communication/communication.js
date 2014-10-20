@@ -120,7 +120,7 @@ var Communication = function() {
   this.batch = function(text) {
     var oldSize = cmdBuffer.length;
     cmdBuffer.concat(text.split('\n'));
-    self.log.debug("commands : " + text);
+    self.Log.debug("commands : " + text);
     self.Log.debug('Pushed ' + (cmdBuffer.length - oldSize) + ' new command in Buffer');
   };
 
