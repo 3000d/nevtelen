@@ -50,7 +50,7 @@ var Communication = function() {
       }
 
       isConnected = true;
-      self.emit(EVENT.CONNECTED);
+      self.emit(self.EVENT.CONNECTED);
 
       serial = new SerialPort(portComName, {
         parser: serialport.parsers.readline("\n"),
@@ -58,13 +58,13 @@ var Communication = function() {
       });
 
       serial.on("open", function () {
-        self.emit(EVENT.PORT_OPENED);
+        self.emit(self.EVENT.PORT_OPENED);
         //get data and log
         self.log('-- [COMM] communication opened on ' + portComName);
 
         serial.on('data', function(data) {
           //path is clear
-          if(data.indexOf(">") >= 0)
+          if(data.indexOf(">") >= 0) // todo : better string
           {
             // log only when there's relevant information
             if(data.length > 2) {
@@ -72,10 +72,10 @@ var Communication = function() {
             }
 
             //roger
-            if(!firstArrow && !EOF)
+            if(!firstArrow && !EOF) // todo : better detection
             {
               self.log("ready " + setup[index]);
-              serial.writeLine(setup[index] + '\n', function(err, results){
+              serial.write(setup[index] + '\n', function(err, results){
                 if(err) self.Log.error('ERROR ' + err);
                 if(results) self.Log.debug('results ' + results);
                 firstArrow = true;
@@ -96,7 +96,7 @@ var Communication = function() {
 
   this.disconnect = function() {
     if(serial && isConnected) {
-      self.emit(EVENT.DISCONNECTED);
+      self.emit(self.EVENT.DISCONNECTED);
       serial.close();
       isConnected = false;
     }
@@ -106,6 +106,7 @@ var Communication = function() {
    * Send a line to a robot and add a \n
    * @param string
    */
+  //TODO : buffer and pass to write
   this.writeLine = function(string) {
     if(serial) {
       serial.write(string + '\n', function(err, results) {
@@ -164,15 +165,15 @@ var Communication = function() {
   this.Log = {
     trace: function(string) {
       util.log(string);
-      self.emit(EVENT.LOG, string, 'trace');
+      self.emit(self.EVENT.LOG, string, 'trace');
     },
     error: function(string) {
       util.error(string);
-      self.emit(EVENT.LOG, string, 'error');
+      self.emit(self.EVENT.LOG, string, 'error');
     },
     debug: function(string) {
       util.debug(string);
-      self.emit(EVENT.LOG, string, 'debug');
+      self.emit(self.EVENT.LOG, string, 'debug');
     }
   };
 
