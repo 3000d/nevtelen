@@ -59,8 +59,8 @@ var Web = function(drawbot) {
       drawbot.writeLine("G92 X0 Y0");
     });
 
-    socket.on('drawbot lights', function(on) {
-      if(on) {
+    socket.on('drawbot lights', function(data) {
+      if(data.on) {
         drawbot.writeLine('G00 F2000 Z255');
       } else {
         drawbot.writeLine('G00 F2000 Z0');
