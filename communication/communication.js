@@ -72,7 +72,7 @@ var Communication = function() {
             //roger
             if(!firstArrow)
             {
-              this.write(); // send next line
+              self.write(); // send next line
             }else
             {
               firstArrow = false;
