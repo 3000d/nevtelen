@@ -96,7 +96,7 @@ var Communication = function() {
    * @param string
    */
   this.writeLine = function(string) {
-      this.cmdBuffer.push(string);
+      cmdBuffer.push(string);
   };
 
   /**
@@ -105,7 +105,7 @@ var Communication = function() {
   this.write = function() {
     // TODO : split text by line and send it to serial
     if(serial) {
-      var cmd = this.cmdBuffer.splice(0, 1);
+      var cmd = cmdBuffer.splice(0, 1);
       self.Log.debug('SENDING : ' + cmd);
       serial.write(cmd + '\n', function(err, results) {
         if(err) self.Log.error('ERROR ' + err, true);
