@@ -103,16 +103,24 @@ var Communication = function() {
    * send the next line to the robot
    */
   this.write = function() {
-    // TODO : split text by line and send it to serial
     if(serial) {
       var cmd = cmdBuffer.splice(0, 1);
       if(cmd.length){
         self.Log.debug('SENDING : ' + cmd);
         serial.write(cmd + '\n', function(err, results) {
-          if(err) self.Log.error('ERROR ' + err, true);
+          if(err) self.Log.error('ERROR ' + err);
         });
       }
     }
+  };
+
+  /**
+  * read batch and push in buffer
+  */
+  this.batch = function(text) {
+    var oldSize = cmdBuffer.length;
+    cmdBuffer.concat(text.split('\n'));
+    self.Log.debug('Pushed' + cmdBuffer.length - oldSize + ' new command in Buffer');
   };
 
   /**

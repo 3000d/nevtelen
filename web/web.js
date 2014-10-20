@@ -44,7 +44,7 @@ var Web = function(drawbot) {
     });
 
     socket.on('drawbot write', function(text) {
-      drawbot.write(text);
+      drawbot.batch(text);
     });
 
     socket.on('drawbot jog', function(data) {
