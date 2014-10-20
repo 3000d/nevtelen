@@ -11,13 +11,13 @@ var root = require('../root'),
  * Communication class to talk with the drawbot
  */
 var Communication = function() {
-  var setup = fs.readFileSync(root.path + '/communication/setup.gcode').toString().split('\n');
   var firstArrow = true;
   var index = 0;
   var EOF = false;
   var serial;
   var self = this;
   var isConnected = false;
+  var cmdBuffer = fs.readFileSync(root.path + '/communication/setup.gcode').toString().split('\n'); //init the buffer with setup code
 
   this.EVENT = {
     CONNECTED: 'connected',
@@ -64,26 +64,15 @@ var Communication = function() {
 
         serial.on('data', function(data) {
           //path is clear
-          if(data.indexOf(">") >= 0) // todo : better string
-          {
-            // log only when there's relevant information
-            if(data.length > 2) {
-              self.log('in: ' + data);
-            }
 
+          if(data.length > 2){
+            self.log('IN: ' + data);
+          }else if(data.indexOf(">") >= 0) // TODO : better string
+          {
             //roger
-            if(!firstArrow && !EOF) // todo : better detection
+            if(!firstArrow)
             {
-              self.log("ready " + setup[index]);
-              serial.write(setup[index] + '\n', function(err, results){
-                if(err) self.Log.error('ERROR ' + err);
-                if(results) self.Log.debug('results ' + results);
-                firstArrow = true;
-                if(index < setup.length)
-                  index++;
-                else
-                  EOF = true;
-              });
+              this.write(); // send next line
             }else
             {
               firstArrow = false;
@@ -106,21 +95,21 @@ var Communication = function() {
    * Send a line to a robot and add a \n
    * @param string
    */
-  //TODO : buffer and pass to write
   this.writeLine = function(string) {
-    if(serial) {
-      serial.write(string + '\n', function(err, results) {
-        if(err) self.Log.error('ERROR ' + err, true);
-      });
-    }
+      this.cmdBuffer.push(string);
   };
 
   /**
-   * Splits a text in line and send it to robot
-   * @param text
+   * send the next line to the robot
    */
-  this.write = function(text) {
-    // TODO split text by line and send it to serial
+  this.write = function() {
+    // TODO : split text by line and send it to serial
+    if(serial) {
+      var cmd = buffer.splice(0, 1);
+      self.Log.debug('SENDING : ' + cmd);
+      serial.write(cmd + '\n', function(err, results) {
+        if(err) self.Log.error('ERROR ' + err, true);
+      });
   };
 
   /**
