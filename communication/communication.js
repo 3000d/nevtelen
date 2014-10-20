@@ -110,6 +110,7 @@ var Communication = function() {
       serial.write(cmd + '\n', function(err, results) {
         if(err) self.Log.error('ERROR ' + err, true);
       });
+    }
   };
 
   /**
