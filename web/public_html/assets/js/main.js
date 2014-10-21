@@ -18,6 +18,10 @@ socket.on('serial-list', function(ports) {
   }
 });
 
+socket.on('users connected', function(counter) {
+  $('#connected-users').html(counter);
+});
+
 
 socket.on('log', function(string, type) {
   var $string = $('<i/>').html(string);

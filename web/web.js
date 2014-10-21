@@ -5,6 +5,8 @@ var util = require('util');
 var io = require('socket.io')(http);
 
 var Web = function(drawbot) {
+  var connectCounter = 0;
+
   app.use(express.static(__dirname + '/public_html/assets'));
 
   app.get('/', function (req, res) {
@@ -12,6 +14,19 @@ var Web = function(drawbot) {
   });
 
   io.on('connection', function(socket) {
+    try {
+      io.sockets.emit('users connected', io.sockets.server.eio.clientsCount);
+    } catch(e) {}
+
+    socket.on('disconnect', function() {
+      util.log('disconnect ' + io.sockets.server.eio.clientsCount);
+      try {
+        io.sockets.emit('users connected', io.sockets.server.eio.clientsCount);
+      } catch(e) {
+        util.error(e);
+      }
+    });
+
     drawbot.on('log', function(string, type) {
       socket.emit('log', string, type);
     });
