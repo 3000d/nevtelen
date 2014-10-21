@@ -6,7 +6,7 @@ var settings = {
 }
 var gcode =[];
 
-var json = require("./test-edges.json");
+var json = require(process.argv[2] || "./test-edges.json");
 
 for(var f=0; f < json["features"].length; f++){
     var geo = json["features"][f]["geometry"];
