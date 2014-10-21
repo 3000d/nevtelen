@@ -2,7 +2,7 @@ var settings = {
   zOn: 255,
   zOff: 0,
   feedrate: 2000,
-  thresh: 5
+  thresh: 5 //size of the smallest acceptable line
 }
 var gcode =[];
 
@@ -14,27 +14,22 @@ for(var f=0; f < json["features"].length; f++){
       case "Polygon":
         for(var spoly=0; spoly<geo["coordinates"].length; spoly++){
           gcode.push("G00 F" + settings.feedrate + " Z" + settings.zOff); //turn off to prepare seek
+          gcode.push("G00 F" + settings.feedrate + " X" + geo["coordinates"][spoly][0][0] + " Y" + geo["coordinates"][spoly][0][0]); // seek to starting point
+          gcode.push("G00 F" + settings.feedrate + " Z" + settings.zOn); //turn on to draw
+
           for(var poly=0; poly<geo["coordinates"][spoly].length; poly++)
           {
             var X = geo["coordinates"][spoly][poly][0];
             var Y = geo["coordinates"][spoly][poly][1];
 
-            if(poly==1){//turn on to draw all the next lines
-              gcode.push("G00 F" + settings.feedrate + " Z" + settings.zOn); //turn off to prepare seek
-            }
-
-            if(poly < geo["coordinates"][spoly].length - 1) //are we not at the end of path ?
+            var simplerRun = 0;
+            while (geo["coordinates"][spoly][poly+simplerRun+1] !== undefined && Math.abs(geo["coordinates"][spoly][poly+simplerRun+1][0] - X) <= settings.thresh && Math.abs( geo["coordinates"][spoly][poly+simplerRun+1][1] - Y) <= settings.thresh)
             {
-              var X2 = geo["coordinates"][spoly][poly+1][0];
-              var Y2 = geo["coordinates"][spoly][poly+1][1];
-
-              if(Math.abs(X2 - X) <= settings.thresh && Math.abs(Y2-Y) <= settings.thresh)
-              {
-                X = X2;
-                Y = Y2;
-                poly = poly+1;
-              }
+                simplerRun++;
             }
+            X = geo["coordinates"][spoly][poly+simplerRun][0];
+            Y = geo["coordinates"][spoly][poly+simplerRun][1];
+            poly = poly+simplerRun;
 
             gcode.push("G00 F" + settings.feedrate + " X" + X + " Y" + Y); // push lines
           }
