@@ -7,6 +7,8 @@
     <script type="text/javascript" src="/vendor/jquery/dist/jquery.min.js"></script>
     <script type="text/javascript" src="/socket.io/socket.io.js"></script>
 
+    <script type="text/javascript" src="/vendor/KineticJS/kinetic.min.js"></script>
+
     <link rel="stylesheet" href="/css/main.css"/>
 </head>
 <body>
@@ -50,7 +52,10 @@
                     <textarea class="form-control" name="write" id="write" cols="60" rows="20"></textarea>
                 </div>
                 <button type="submit" class="btn btn-default">Send</button>
+                <a href="#" id="view-gcode" class="btn btn-primary">View</a>
             </form>
+            <hr/>
+            <div id="gcode-viewer"></div>
         </section>
     </div>
 </div>
@@ -63,6 +68,8 @@
     </form>
 </section>
 
+
+<script type="text/javascript" src="/js/gcodeViewer.js"></script>
 <script type="text/javascript" src="/js/main.js"></script>
 </body>
 </html>

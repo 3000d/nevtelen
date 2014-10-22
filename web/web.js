@@ -5,8 +5,6 @@ var util = require('util');
 var io = require('socket.io')(http);
 
 var Web = function(drawbot) {
-  var connectCounter = 0;
-
   app.use(express.static(__dirname + '/public_html/assets'));
 
   app.get('/', function (req, res) {

@@ -8153,4 +8153,8 @@ header#page-header {
 #write {
   height: 200px;
 }
-/*# sourceMappingURL=/public_html/assets/css/main.css.map */
+#gcode-viewer {
+  border: solid #ddd 2px;
+  margin-top: 30px;
+}
+/*# sourceMappingURL=/css/main.css.map */
