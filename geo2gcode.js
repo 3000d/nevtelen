@@ -3,7 +3,7 @@ var settings = {
   zOff: 0,
   feedrate: (process.argv[3] || 2000),
   thresh: 5 //size of the smallest acceptable line
-}
+};
 var gcode = ["G00 F" + settings.feedrate + " Z" + settings.zOff]; //turn off to prepare seek
 gcode.push('G00 F'+settings.feedrate+' X0 Y0');
 
@@ -15,7 +15,7 @@ for(var f=0; f < json["features"].length; f++){
       case "Polygon":
         for(var spoly=0; spoly<geo["coordinates"].length; spoly++){
           gcode.push("G00 F" + settings.feedrate + " Z" + settings.zOff); //turn off to prepare seek
-          gcode.push("G00 F" + settings.feedrate + " X" + geo["coordinates"][spoly][0][0] + " Y" + geo["coordinates"][spoly][0][0]); // seek to starting point
+          gcode.push("G00 F" + settings.feedrate + " X" + geo["coordinates"][spoly][0][0] + " Y" + geo["coordinates"][spoly][0][1]); // seek to starting point
           gcode.push("G00 F" + settings.feedrate + " Z" + settings.zOn); //turn on to draw
 
           for(var poly=0; poly<geo["coordinates"][spoly].length; poly++)

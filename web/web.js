@@ -12,6 +12,18 @@ var Web = function(drawbot) {
   });
 
   io.on('connection', function(socket) {
+    try {
+      io.sockets.emit('users connected', io.sockets.server.eio.clientsCount);
+    } catch(e) {}
+
+    socket.on('disconnect', function() {
+      try {
+        io.sockets.emit('users connected', io.sockets.server.eio.clientsCount);
+      } catch(e) {
+        util.error(e);
+      }
+    });
+
     drawbot.on('log', function(string, type) {
       socket.emit('log', string, type);
     });

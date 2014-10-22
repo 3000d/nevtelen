@@ -6,6 +6,35 @@ var $connect = $('#connect');
 var $disconnect = $('#disconnect');
 var $connectionFeedback = $('#connection-feedback');
 
+
+/**
+ *
+ * Draw gCode
+ *
+ */
+
+var gcodeViewer = new GcodeViewer(document.getElementById('gcode-viewer'));
+
+$('#view-gcode').on('click', function(e) {
+  var data = $('#write').val();
+
+  if(data.length) {
+    gcodeViewer.clear();
+    gcodeViewer.draw(data);
+  }
+});
+
+
+
+
+/**
+ *
+ * Listen to events on socket
+ *
+ */
+
+
+
 /**
  * Receive serial port list
  */
@@ -43,6 +72,13 @@ socket.on('drawbot connected', function() {
 socket.on('drawbot disconnected', function() {
   checkConnected(false);
 });
+
+
+/**
+ *
+ * Click events
+ *
+ */
 
 
 /**
