@@ -2,7 +2,7 @@ var settings = {
   zOn: 180,
   zOff: 0,
   feedrate: (process.argv[3] || 2000),
-  thresh: 5 //size of the smallest acceptable line
+  thresh: (process.argv[4] || 5) //size of the smallest acceptable line
 };
 var gcode = ["G00 F" + settings.feedrate + " Z" + settings.zOff]; //turn off to prepare seek
 gcode.push('G00 F'+settings.feedrate+' X0 Y0');

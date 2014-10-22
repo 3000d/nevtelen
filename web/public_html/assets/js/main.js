@@ -16,6 +16,8 @@ var $connectionFeedback = $('#connection-feedback');
 var gcodeViewer = new GcodeViewer(document.getElementById('gcode-viewer'));
 
 $('#view-gcode').on('click', function(e) {
+  e.preventDefault();
+
   var data = $('#write').val();
 
   if(data.length) {
@@ -185,13 +187,16 @@ $('#writeLine-form').on('submit', function(e) {
  * Write text
  */
 $('#write-form').on('submit', function(e) {
+  e.preventDefault();
   var text = $('#write').val();
 
   if(text) {
     socket.emit('drawbot write', text);
+
+    gcodeViewer.clear();
+    gcodeViewer.draw(text);
   }
 
-  e.preventDefault();
 });
 
 
