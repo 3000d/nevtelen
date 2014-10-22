@@ -4,10 +4,10 @@ var settings = {
   feedrate: (process.argv[3] || 2000),
   thresh: (process.argv[4] || 5) //size of the smallest acceptable line
 };
-var gcode = ["G00 F" + settings.feedrate + " Z" + settings.zOff]; //turn off to prepare seek
-gcode.push('G00 F'+settings.feedrate+' X0 Y0');
 
 var json = require(process.argv[2] || "./test-edges.json");
+
+var gcode = [];
 
 for(var f=0; f < json["features"].length; f++){
     var geo = json["features"][f]["geometry"];
@@ -40,6 +40,44 @@ for(var f=0; f < json["features"].length; f++){
     }
 }
 
-console.log(gcode.join("\n"));
-
 //console.log("LENGTH : " + gcode.length);
+
+var centerGcode = function(gcode){
+  var xmin = 10000;
+  var xmax = -10000;
+  var ymin = 10000;
+  var ymax = -10000;
+  for(var i=0; i<gcode.length; i++)
+  {
+    var split = gcode[i].split(' ');
+    if(split[0] == 'G00' && split[2][0] == 'X')
+    {
+      if(parseInt(split[2].substr(1), 10) < xmin) xmin = split[2].substr(1);
+      if(parseInt(split[2].substr(1), 10) > xmax) xmax = split[2].substr(1);
+      if(parseInt(split[3].substr(1), 10) < ymin) ymin = split[3].substr(1);
+      if(parseInt(split[3].substr(1), 10) > ymax) ymax = split[3].substr(1);
+    }
+  }
+
+  xcut = (xmax - xmin) / 2;
+  ycut = (ymax - ymin) / 2;
+
+  for(var i=0; i<gcode.length; i++)
+  {
+    var split = gcode[i].split(' ');
+    if(split[0] == 'G00' && split[2][0] == 'X')
+    {
+      split[2] = "X" + (parseInt(split[2].substr(1), 10) - xcut);
+      split[3] = "Y" + (parseInt(split[3].substr(1), 10) - ycut);
+    }
+    gcode[i] = split.join(" ");
+  }
+
+  return gcode;
+}
+
+gcode = centerGcode(gcode);
+
+gcode.splice(0, "G00 F" + settings.feedrate + " Z" + settings.zOff, 'G00 F'+settings.feedrate+' X0 Y0');
+
+console.log(gcode.join("\n"));
