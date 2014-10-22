@@ -1,10 +1,11 @@
 var settings = {
-  zOn: 255,
+  zOn: 180,
   zOff: 0,
-  feedrate: 2000,
+  feedrate: (process.argv[3] || 2000),
   thresh: 5 //size of the smallest acceptable line
 }
-var gcode =[];
+var gcode = ["G00 F" + settings.feedrate + " Z" + settings.zOff]; //turn off to prepare seek
+gcode.push('G00 F'+settings.feedrate+' X0 Y0');
 
 var json = require(process.argv[2] || "./test-edges.json");
 
