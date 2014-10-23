@@ -20,6 +20,9 @@ var util = require('util'),
 var web = new Web(communication);
 web.startServer();
 
+communication.on('drawFinished', function() {
+  console.log('-- YO -- draw finished');
+});
 
 /**
  * Watch gcode folder to send to drawbot
@@ -33,6 +36,7 @@ gcodeWatcher = new Watcher({
 gcodeWatcher.on('fileAdded', function(evt) {
   util.log('[new GCODE] ' + evt.path + ' added');
 
+
   // TODO get text from gcode file
-  // communication.batch();
+  // communication.batch();Log.
 });

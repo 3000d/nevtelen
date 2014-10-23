@@ -11,19 +11,21 @@ var root = require('../root'),
  * Communication class to talk with the drawbot
  */
 var Communication = function() {
-  var firstArrow = true;
-  var index = 0;
-  var EOF = false;
-  var serial;
-  var self = this;
-  var isConnected = false;
-  var cmdBuffer = fs.readFileSync(root.path + '/communication/setup.gcode').toString().split('\n'); //init the buffer with setup code
+  var firstArrow = true,
+    index = 0,
+    EOF = false,
+    serial,
+    self = this,
+    isConnected = false,
+    emitEventOnFinish = false,
+    cmdBuffer = fs.readFileSync(root.path + '/communication/setup.gcode').toString().split('\n'); //init the buffer with setup code
 
   this.EVENT = {
     CONNECTED: 'connected',
     PORT_OPENED: 'portOpened',
     DISCONNECTED: 'disconnected',
-    LOG: 'log'
+    LOG: 'log',
+    DRAW_FINISHED: 'drawFinished'
   };
 
 
@@ -78,12 +80,12 @@ var Communication = function() {
               firstArrow = false;
             }
           }
+        });
 
-          serial.on('error', function(error){
-            self.emit(self.EVENT.DISCONNECTED);
-            self.Log.error('ERROR + serial error - disconnected \n' + error);
-            isConnected = false;
-          });
+        serial.on('error', function(error){
+          self.emit(self.EVENT.DISCONNECTED);
+          self.Log.error('ERROR + serial error - disconnected \n' + error);
+          isConnected = false;
         });
       });
     }
@@ -102,7 +104,7 @@ var Communication = function() {
    * @param string
    */
   this.writeLine = function(string) {
-      cmdBuffer.push(string);
+    cmdBuffer.push(string);
   };
 
   /**
@@ -116,14 +118,22 @@ var Communication = function() {
         serial.write(cmd + '\n', function(err, results) {
           if(err) self.Log.error('ERROR ' + err);
         });
+      } else {
+        if(emitEventOnFinish) {
+          self.emit(self.EVENT.DRAW_FINISHED);
+          emitEventOnFinish = false;
+        }
       }
     }
   };
 
   /**
-  * read batch and push in buffer
-  */
-  this.batch = function(text) {
+   * read batch and push in buffer
+   */
+  this.batch = function(text, emitEvent) {
+    if(emitEvent)
+      emitEventOnFinish = true;
+
     var oldSize = cmdBuffer.length;
     cmdBuffer = cmdBuffer.concat(text.split('\n'));
     self.Log.debug("commands : " + text);

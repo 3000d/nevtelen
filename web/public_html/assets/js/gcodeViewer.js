@@ -26,36 +26,36 @@ var GcodeViewer = function(canvas) {
       fill:"white",opacity:0.01
     });
 
-    _txtLayer.add(bk);
-    var mouseText = new Kinetic.Text({
-      fill: 'black',
-      text: ''
-    });
-
-    _txtLayer.add(mouseText);
-
-    bk.on('mousemove', function() {
-      var pos = _stage.getPointerPosition();
-      mouseText.text('x ' + pos.x + ' / y ' + pos.y);
-      mouseText.x(pos.x);
-      mouseText.y(pos.y - 15);
-      _txtLayer.draw();
-    });
-
-    bk.on('click', function() {
-      var pos = _stage.getPointerPosition();
-      var point = new Kinetic.Ellipse({
-        radius: {
-          x: 2,
-          y: 2
-        },
-        x: pos.x,
-        y: pos.y,
-        fill: 'red'
-      });
-      _txtLayer.add(point);
-      _txtLayer.draw();
-    });
+    //_txtLayer.add(bk);
+    //var mouseText = new Kinetic.Text({
+    //  fill: 'black',
+    //  text: ''
+    //});
+    //
+    //_txtLayer.add(mouseText);
+    //
+    //bk.on('mousemove', function() {
+    //  var pos = _stage.getPointerPosition();
+    //  mouseText.text('x ' + pos.x + ' / y ' + pos.y);
+    //  mouseText.x(pos.x);
+    //  mouseText.y(pos.y - 15);
+    //  _txtLayer.draw();
+    //});
+    //
+    //bk.on('click', function() {
+    //  var pos = _stage.getPointerPosition();
+    //  var point = new Kinetic.Ellipse({
+    //    radius: {
+    //      x: 2,
+    //      y: 2
+    //    },
+    //    x: pos.x,
+    //    y: pos.y,
+    //    fill: 'red'
+    //  });
+    //  _txtLayer.add(point);
+    //  _txtLayer.draw();
+    //});
 
     _txtLayer.draw();
   };
@@ -70,7 +70,7 @@ var GcodeViewer = function(canvas) {
 
     // is it json or gcode ? Yo ?
     if(parsedData) {
-      drawGeoJson(data);
+      drawGeoJson(parsedData);
     } else {
       drawGcode(data);
     }
