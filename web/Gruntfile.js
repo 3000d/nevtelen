@@ -14,8 +14,8 @@ module.exports = function(grunt) {
         options: {
           compress: false,
           sourceMap: true,
-          sourceMapFilename: 'public_html/assets/css/main.css.map',
-          sourceMapRootpath: '/'
+          sourceMapFilename: 'main.css.map',
+          sourceMapRootpath: '/css/'
         }
       },
       build: {
