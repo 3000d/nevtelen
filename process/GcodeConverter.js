@@ -48,6 +48,7 @@ var GcodeConverter = function(params) {
     }
 
     gcode.splice(0, "G00 F" + settings.feedrate + " Z" + settings.zOff, 'G00 F'+settings.feedrate+' X0 Y0');
+    gcode.push(0, "G00 F" + settings.feedrate + " Z" + settings.zOff, 'G00 F'+settings.feedrate+' X0 Y0');
     return gcode.join("\n");
   };
 

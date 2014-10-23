@@ -21,7 +21,7 @@ var gcodeFiles = [];
 
 var bmpWatcher = new Watcher({
   folder: path.resolve(root.data_bmp),
-  extensions: ['bmp']
+  extensions: ['bmp', 'BMP']
 });
 
 var jsonWatcher = new Watcher({
@@ -59,22 +59,26 @@ drawbot.getSerialPortList(function(ports) {
   });
 
   jsonWatcher.on('fileAdded', function(evt) {
-    var json = require(evt.path);
-    var gcode = gcodeConverter.convert(json);
-    var gcodeFileName = 'face_' + Math.round(new Date().getTime() / 1000) + '.gcode';
+    try {
+      var json = require(evt.path);
+      var gcode = gcodeConverter.convert(json);
+      var gcodeFileName = 'face_' + Math.round(new Date().getTime() / 1000) + '.gcode';
 
-    fs.writeFile(root.data_gcode + '/' + gcodeFileName, gcode, function(err) {
-      if(err) {
-        drawbot.Log.error('Could not save to gcode');
-      } else {
-        drawbot.log('-- GCode created: ' + gcodeFileName);
-        gcodeFiles.push(gcodeFileName);
+      fs.writeFile(root.data_gcode + '/' + gcodeFileName, gcode, function(err) {
+        if(err) {
+          drawbot.Log.error('Could not save to gcode');
+        } else {
+          drawbot.log('-- GCode created: ' + gcodeFileName);
+          gcodeFiles.push(gcodeFileName);
 
-        if(!drawbot.isDrawing) {
-          processGcodeFile();
+          if(!drawbot.isDrawing) {
+            processGcodeFile();
+          }
         }
-      }
-    });
+      });
+    } catch(e) {
+      drawbot.Log.error('could not convert json to gcode');
+    }
   });
 
   drawbot.on('drawFinished', function() {
@@ -83,14 +87,20 @@ drawbot.getSerialPortList(function(ports) {
 });
 
 var processGcodeFile = function(removeLast) {
-  if(removeLast) {
+  if(removeLast && gcodeFiles.length) {
     var gcodeFileToRemove = gcodeFiles.pop();
     moveGcodeFile(gcodeFileToRemove);
   }
   var gcodeFile = getGcodeFile();
   if(gcodeFile) {
     var gcode = fs.readFileSync(root.data_gcode + '/' + gcodeFile, 'utf8');
-    drawbot.batch(gcode);
+    console.log('PROCESS ' + gcodeFile);
+    drawbot.isDrawing = true;
+    setTimeout(function() {
+      drawbot.isDrawing = false;
+      drawbot.emit('drawFinished');
+    }, 10000);
+    //drawbot.batch(gcode);
   }
 };
 
@@ -114,5 +124,5 @@ var getGcodeFile = function() {
 };
 
 var moveGcodeFile = function(gcodeFileName) {
-  fs.rename(root.data_gcode + '/' + gcodeFileName, root.data_gcode_processed + '/' + gcodeFileName);
+  fs.renameSync(root.data_gcode + '/' + gcodeFileName, root.data_gcode_processed + '/' + gcodeFileName);
 };
