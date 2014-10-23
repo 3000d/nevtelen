@@ -2,7 +2,7 @@ var root = require('../root'),
   fs = require('fs'),
   util = require('util'),
   events = require('events'),
-  osc = require("node-osc"),
+  osc = require("node-osc");
 
 /**
  * Osc class to talk with the ofx code
