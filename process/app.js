@@ -8,6 +8,7 @@ var path = require('path'),
   fs = require('fs'),
   root = require('../root'),
   exec = require('child_process').exec,
+  osc = new (require(root.communication + '/osc')),
   util = require('util'),
 
   Communication = require(root.communication + '/communication'),
@@ -84,6 +85,7 @@ drawbot.getSerialPortList(function(ports) {
 
   drawbot.on('drawFinished', function() {
     drawbot.log('-- DRAW FINISHED');
+    osc.sendEOD();
     processGcodeFile(true);
   });
 });
