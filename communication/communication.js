@@ -28,6 +28,7 @@ var Communication = function() {
     DRAW_FINISHED: 'drawFinished'
   };
 
+  this.isDrawing = false;
 
   /**
    * get serial ports available
@@ -112,6 +113,8 @@ var Communication = function() {
    */
   this.write = function() {
     if(serial) {
+      self.isDrawing = true;
+
       var cmd = cmdBuffer.splice(0, 1);
       if(cmd.length){
         self.Log.debug('SENDING : ' + cmd);
@@ -119,6 +122,8 @@ var Communication = function() {
           if(err) self.Log.error('ERROR ' + err);
         });
       } else {
+        self.isDrawing = false;
+
         if(emitEventOnFinish) {
           self.emit(self.EVENT.DRAW_FINISHED);
           emitEventOnFinish = false;
@@ -130,9 +135,8 @@ var Communication = function() {
   /**
    * read batch and push in buffer
    */
-  this.batch = function(text, emitEvent) {
-    if(emitEvent)
-      emitEventOnFinish = true;
+  this.batch = function(text) {
+    emitEventOnFinish = true;
 
     var oldSize = cmdBuffer.length;
     cmdBuffer = cmdBuffer.concat(text.split('\n'));

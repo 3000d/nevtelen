@@ -3,8 +3,8 @@
 
 # Data
 data/gcode
-data/jpg
-data/svg
+data/bmp
+data/json
 
 !.gitkeep
 

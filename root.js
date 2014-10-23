@@ -6,6 +6,7 @@ module.exports = {
   common: __dirname + '/common',
   data: __dirname + '/data',
   data_gcode: __dirname + '/data/gcode',
-  data_jpg: __dirname + '/data/jpg',
-  data_svg: __dirname + '/data/svg'
+  data_gcode_processed: __dirname + '/data/data_gcode_processed',
+  data_bmp: __dirname + '/data/bmp',
+  data_json: __dirname + '/data/json'
 };
