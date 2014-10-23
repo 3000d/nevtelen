@@ -80,12 +80,12 @@ var Communication = function() {
               firstArrow = false;
             }
           }
+        });
 
-          serial.on('error', function(error){
-            self.emit(self.EVENT.DISCONNECTED);
-            self.Log.error('ERROR + serial error - disconnected \n' + error);
-            isConnected = false;
-          });
+        serial.on('error', function(error){
+          self.emit(self.EVENT.DISCONNECTED);
+          self.Log.error('ERROR + serial error - disconnected \n' + error);
+          isConnected = false;
         });
       });
     }
