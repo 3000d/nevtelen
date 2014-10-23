@@ -8,7 +8,7 @@ var util = require('util'),
   root = require('../root'),
   path = require('path'),
   communication = new (require('./communication'))(),
-  osc = new (require('.OSC'))(),
+  osc = new (require('./osc'))(),
   Web = require(root.web + '/web');
 
 
