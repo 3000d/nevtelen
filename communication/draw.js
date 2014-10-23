@@ -22,6 +22,7 @@ web.startServer();
 
 communication.on('drawFinished', function() {
   console.log('-- YO -- draw finished');
+  osc.sendEOD();
 });
 
 /**
