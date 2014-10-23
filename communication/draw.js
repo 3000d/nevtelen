@@ -8,6 +8,7 @@ var util = require('util'),
   root = require('../root'),
   path = require('path'),
   communication = new (require('./communication'))(),
+  osc = new (require('./osc'))(),
   Web = require(root.web + '/web');
 
 
@@ -21,6 +22,7 @@ web.startServer();
 
 communication.on('drawFinished', function() {
   console.log('-- YO -- draw finished');
+  osc.sendEOD();
 });
 
 /**
