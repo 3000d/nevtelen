@@ -3,6 +3,10 @@ var app = express();
 var http = require('http').Server(app);
 var util = require('util');
 var io = require('socket.io')(http);
+var root = require('../root');
+
+var GcodeConverter = require(root.process + '/GcodeConverter');
+var gcodeConverter = new GcodeConverter({});
 
 var Web = function(drawbot) {
   app.use(express.static(__dirname + '/public_html/assets'));
@@ -57,7 +61,20 @@ var Web = function(drawbot) {
     });
 
     socket.on('drawbot write', function(text) {
-      drawbot.batch(text);
+      var parsedData;
+      try {
+        parsedData = JSON.parse(text);
+      } catch(e) {}
+
+      console.log(text);
+
+      // data is JSON. Convert !
+      if(parsedData) {
+        var gcode = gcodeConverter.convert(parsedData);
+        drawbot.batch(gcode);
+      } else {
+        drawbot.batch(text);
+      }
     });
 
     socket.on('drawbot jog', function(data) {
