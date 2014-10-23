@@ -18,6 +18,7 @@ var drawbot = new Communication();
 var gcodeConverter = new GcodeConverter({});
 
 var gcodeFiles = [];
+var currentGcodeFile;
 
 var bmpWatcher = new Watcher({
   folder: path.resolve(root.data_bmp),
@@ -37,7 +38,7 @@ drawbot.getSerialPortList(function(ports) {
   drawbot.on('connected', function() {
   });
 
-  processGcodeFile();
+  //processGcodeFile();
 
   bmpWatcher.on('fileAdded', function(evt) {
     var jsonFileName = 'face_' + Math.round(new Date().getTime() / 1000) + '.json';
@@ -82,46 +83,57 @@ drawbot.getSerialPortList(function(ports) {
   });
 
   drawbot.on('drawFinished', function() {
+    drawbot.log('-- DRAW FINISHED');
     processGcodeFile(true);
   });
 });
 
 var processGcodeFile = function(removeLast) {
-  if(removeLast && gcodeFiles.length) {
-    var gcodeFileToRemove = gcodeFiles.pop();
-    moveGcodeFile(gcodeFileToRemove);
-  }
-  var gcodeFile = getGcodeFile();
-  if(gcodeFile) {
-    var gcode = fs.readFileSync(root.data_gcode + '/' + gcodeFile, 'utf8');
-    console.log('PROCESS ' + gcodeFile);
-    //drawbot.isDrawing = true;
-    //setTimeout(function() {
-    //  drawbot.isDrawing = false;
-    //  drawbot.emit('drawFinished');
-    //}, 10000);
-    drawbot.batch(gcode);
-  }
-};
-
-var getGcodeFile = function() {
-  if(!gcodeFiles.length) {
-    var gcodesInFolder = fs.readdirSync(root.data_gcode);
-    for(var i = 0; i < gcodesInFolder.length; i++) {
-      var fileName = gcodesInFolder[i].split('.');
-
-      if(fileName[fileName.length-1] === 'gcode') {
-        gcodeFiles.push(gcodesInFolder[i]);
+  if(removeLast && currentGcodeFile) {
+    for(var i = 0; i < gcodeFiles.length; i++) {
+      if(gcodeFiles[i] === currentGcodeFile) {
+        gcodeFiles.splice(i, 1);
       }
     }
+    moveGcodeFile(currentGcodeFile);
   }
-
+  var gcodeFile;
   if(gcodeFiles.length) {
-    return gcodeFiles[gcodeFiles.length - 1];
-  } else {
-    return null;
+    gcodeFile = gcodeFiles[gcodeFiles.length - 1];
+    currentGcodeFile = gcodeFile;
+
+    var gcode = fs.readFileSync(root.data_gcode + '/' + gcodeFile, 'utf8');
+
+    if(gcode) {
+      console.log('PROCESS ' + gcodeFile);
+      //drawbot.isDrawing = true;
+      //setTimeout(function() {
+      //  drawbot.isDrawing = false;
+      //  drawbot.emit('drawFinished');
+      //}, 10000);
+      drawbot.batch(gcode);
+    }
   }
 };
+
+//var getGcodeFile = function() {
+//  if(!gcodeFiles.length) {
+//    var gcodesInFolder = fs.readdirSync(root.data_gcode);
+//    for(var i = 0; i < gcodesInFolder.length; i++) {
+//      var fileName = gcodesInFolder[i].split('.');
+//
+//      if(fileName[fileName.length-1] === 'gcode') {
+//        gcodeFiles.push(gcodesInFolder[i]);
+//      }
+//    }
+//  }
+//
+//  if(gcodeFiles.length) {
+//    return gcodeFiles[gcodeFiles.length - 1];
+//  } else {
+//    return null;
+//  }
+//};
 
 var moveGcodeFile = function(gcodeFileName) {
   fs.renameSync(root.data_gcode + '/' + gcodeFileName, root.data_gcode_processed + '/' + gcodeFileName);
