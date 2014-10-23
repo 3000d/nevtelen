@@ -71,9 +71,9 @@ var Web = function(drawbot) {
       // data is JSON. Convert !
       if(parsedData) {
         var gcode = gcodeConverter.convert(parsedData);
-        drawbot.batch(gcode);
+        drawbot.batch(gcode, true);
       } else {
-        drawbot.batch(text);
+        drawbot.batch(text, true);
       }
     });
 

@@ -20,7 +20,7 @@ var web = new Web(communication);
 web.startServer();
 
 communication.on('drawFinished', function() {
-  communication.log('-- YO -- draw finished');
+  console.log('-- YO -- draw finished');
 });
 
 /**
