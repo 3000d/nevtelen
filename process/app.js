@@ -33,7 +33,7 @@ var jsonWatcher = new Watcher({
 
 
 drawbot.getSerialPortList(function(ports) {
-  drawbot.connect(process.argv[2] || ports[0]);
+  drawbot.connect(process.argv[2] || ports[0].comName);
 
   drawbot.on('connected', function() {
   });
