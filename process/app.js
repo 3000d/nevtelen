@@ -95,12 +95,12 @@ var processGcodeFile = function(removeLast) {
   if(gcodeFile) {
     var gcode = fs.readFileSync(root.data_gcode + '/' + gcodeFile, 'utf8');
     console.log('PROCESS ' + gcodeFile);
-    drawbot.isDrawing = true;
-    setTimeout(function() {
-      drawbot.isDrawing = false;
-      drawbot.emit('drawFinished');
-    }, 10000);
-    //drawbot.batch(gcode);
+    //drawbot.isDrawing = true;
+    //setTimeout(function() {
+    //  drawbot.isDrawing = false;
+    //  drawbot.emit('drawFinished');
+    //}, 10000);
+    drawbot.batch(gcode);
   }
 };
 
