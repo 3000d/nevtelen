@@ -12,7 +12,7 @@ var gcodeConverter = new GcodeConverter({});
 var Web = function(drawbot) {
   app.use(express.static(__dirname + '/public_html/assets'));
   app.use(express.static(root.data));
-  app.use(serveIndex(root.data));
+  app.use(serveIndex(root.data, {icons: true, view: 'details'}));
 
   app.get('/', function (req, res) {
     res.sendFile(__dirname + '/public_html/index.html');
