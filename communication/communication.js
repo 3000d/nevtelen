@@ -25,6 +25,7 @@ var Communication = function() {
     PORT_OPENED: 'portOpened',
     DISCONNECTED: 'disconnected',
     LOG: 'log',
+    DRAW_STARTED: 'drawStarted',
     DRAW_FINISHED: 'drawFinished'
   };
 
@@ -113,21 +114,21 @@ var Communication = function() {
    */
   this.write = function() {
     if(serial) {
-      self.isDrawing = true;
-
       var cmd = cmdBuffer.splice(0, 1);
       if(cmd.length){
         self.Log.debug('SENDING : ' + cmd);
         serial.write(cmd + '\n', function(err, results) {
           if(err) self.Log.error('ERROR ' + err);
         });
-      } else {
-        self.isDrawing = false;
+      }
 
-        if(emitEventOnFinish) {
-          self.emit(self.EVENT.DRAW_FINISHED);
-          emitEventOnFinish = false;
-        }
+      if(cmd === 'M200') {
+        self.isDrawing = true;
+        self.emit(self.EVENT.DRAW_STARTED);
+      }
+      if(cmd === 'M201') {
+        self.isDrawing = false;
+        self.emit(self.EVENT.DRAW_FINISHED);
       }
     }
   };

@@ -14,9 +14,12 @@ var path = require('path'),
   Communication = require(root.communication + '/communication'),
   GcodeConverter = require(root.process + '/GcodeConverter'),
   Watcher = require(root.common + '/Watcher');
+  WebServer = require(root.web + '/web');
 
 var drawbot = new Communication();
 var gcodeConverter = new GcodeConverter({});
+var webServer = new WebServer(drawbot);
+webServer.startServer();
 
 var gcodeFiles = [];
 var currentGcodeFile;
@@ -34,7 +37,9 @@ var jsonWatcher = new Watcher({
 
 
 drawbot.getSerialPortList(function(ports) {
-  drawbot.connect(process.argv[2] || ports[0].comName);
+  try {
+    drawbot.connect(process.argv[2] || ports[0].comName);
+  } catch(e) {}
 
   drawbot.on('connected', function() {
   });
@@ -81,6 +86,12 @@ drawbot.getSerialPortList(function(ports) {
     } catch(e) {
       drawbot.Log.error('could not convert json to gcode');
     }
+  });
+
+  drawbot.on('drawStarted', function() {
+    drawbot.log('-- DRAW STARTED');
+    osc.sendSOD();
+    processGcodeFile(true);
   });
 
   drawbot.on('drawFinished', function() {

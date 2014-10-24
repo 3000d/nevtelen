@@ -9,14 +9,15 @@ var root = require('../root'),
  */
 var OSC = function() {
   var self = this;
+  var client = new osc.Client('127.0.0.1', 3333);
 
-  this.sendEOD = function()
-  {
-    var client = new osc.Client('127.0.0.1', '3333');
-    //var client = new osc.Client('192.168.178.21', '3333');
-    //var client = new osc.Client('192.168.178.48', '3333');
+  this.sendEOD = function() {
     client.send('/EOD', 'true')
-  }
+  };
+
+  this.sendSOD = function() {
+    client.send('/SOD', 'true')
+  };
 };
 
 module.exports = OSC;

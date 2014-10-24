@@ -5,12 +5,16 @@ var GcodeConverter = function(params) {
     feedrate: (params.feedrate || 2000),
     thresh: (params.threshold || 5), //size of the smallest acceptable line
     scale: (params.scale || 1),
-    centerHome: (params.centerHome || true)
+    centerHome: (params.centerHome || true),
+    startOfFile: 'M200',
+    endOfFile: 'M201'
   };
 
 
   this.convert = function(json) {
     var gcode = [];
+
+    gcode.push(settings.startOfFile);
 
     for(var f=0; f < json["features"].length; f++){
       var geo = json["features"][f]["geometry"];
@@ -48,7 +52,8 @@ var GcodeConverter = function(params) {
     }
 
     gcode.splice(0, "G00 F" + settings.feedrate + " Z" + settings.zOff, 'G00 F'+settings.feedrate+' X0 Y0');
-    gcode.push(0, "G00 F" + settings.feedrate + " Z" + settings.zOff, 'G00 F'+settings.feedrate+' X0 Y0');
+    gcode.push("G00 F" + settings.feedrate + " Z" + settings.zOff, 'G00 F'+settings.feedrate+' X0 Y0');
+    gcode.push(settings.endOfFile);
     return gcode.join("\n");
   };
 
@@ -72,9 +77,9 @@ var GcodeConverter = function(params) {
     var xcut = (xmax - xmin) / 2;
     var ycut = (ymax - ymin) / 2;
 
-    for(var i=0; i<gcode.length; i++)
+    for(i=0; i<gcode.length; i++)
     {
-      var split = gcode[i].split(' ');
+      split = gcode[i].split(' ');
       if(split[0] == 'G00' && split[2][0] == 'X')
       {
         split[2] = "X" + (parseInt(split[2].substr(1), 10) - xcut);
