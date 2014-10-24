@@ -8,5 +8,6 @@ module.exports = {
   data_gcode: __dirname + '/data/gcode',
   data_gcode_processed: __dirname + '/data/gcode_processed',
   data_bmp: __dirname + '/data/bmp',
+  data_temp: __dirname + '/data/temp',
   data_json: __dirname + '/data/json'
 };
