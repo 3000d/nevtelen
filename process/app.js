@@ -67,7 +67,7 @@ drawbot.getSerialPortList(function(ports) {
         return;
       }else
       {
-        if(stdout.split(' ')[0] > 1400)
+        if(stdout.split(' ')[0] > 1250)
         {
           drawbot.log('compare : got it ' + stdout[0]);
           exec(potrace, function(error, stdout, stderr) {
