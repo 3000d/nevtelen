@@ -116,7 +116,6 @@ var Communication = function() {
     if(serial) {
       var cmd = cmdBuffer.splice(0, 1);
       if(cmd.length){
-        self.log('yo: ' + cmd + ' ' + cmd.indexOf('M200'));
         if(cmd.indexOf('M200') > -1) {
           self.isDrawing = true;
           self.emit(self.EVENT.DRAW_STARTED);
