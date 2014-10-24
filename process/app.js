@@ -59,8 +59,14 @@ drawbot.getSerialPortList(function(ports) {
 
     var potrace = 'potrace -i -b geojson -k 0.4 -t 60 -o ' + (root.data_json + '/' + jsonFileName) + ' ' + evt.path;
     var compare = 'compare -metric mae ' + root.process + '/background.bmp ' + evt.path + ' ' + root.data_temp + '/diff.bmp';
-
-    drawbot.log(compare);
+    var size = evt.path.split('_');
+    var w = size[3];
+    var h = size[4];
+    var x = size[1];
+    var y = size[2];
+    var modw = w/10;
+    var modh = h/10;
+    var crop = 'convert -crop + '(w+modw) + 'x' + (h+modh) + '+' (x-modw/2) + '+' + (y-modh/2) + ' ' + evt.path + ' ' +evt.path;
 
     exec(compare, function(error, stdout, strerr){
       if((error && error !== 'null'))
@@ -69,17 +75,26 @@ drawbot.getSerialPortList(function(ports) {
         return;
       }else
       {
-        drawbot.Log.debug('compare says: ' + strerr.split(' ')[0]);
+        //drawbot.Log.debug('compare says: ' + strerr.split(' ')[0]);
         if(strerr.split(' ')[0] > 1400)
         {
-          drawbot.Log.debug('gotit');
-          exec(potrace, function(error, stdout, stderr) {
-            if((error && error !== 'null') || stderr) {
-              drawbot.Log.error('potrace ' + error);
-              return;
-            }
-            //drawbot.log('-- Json file created: ' + jsonFileName);
-          });
+          if((error && error !== 'null'))
+          {
+            drawbot.Log.error('compare : error : ' + error);
+            return;
+          }else
+          {
+            drawbot.Log.debug('gotit' + strerr.split(' ')[0]);
+            exec(crop, function(error, stdout, strerr){
+              exec(potrace, function(error, stdout, stderr) {
+                if((error && error !== 'null') || stderr) {
+                  drawbot.Log.error('potrace ' + error);
+                  return;
+                }
+                //drawbot.log('-- Json file created: ' + jsonFileName);
+              });
+            });
+          }
         }else
         {
           //fs.unlinkSync(evt.path);
