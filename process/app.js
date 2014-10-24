@@ -86,9 +86,9 @@ drawbot.getSerialPortList(function(ports) {
           drawbot.log('-- GCode created: ' + gcodeFileName);
           gcodeFiles.push(gcodeFileName);
 
-          if(!drawbot.isDrawing) {
-            processGcodeFile();
-          }
+          //if(!drawbot.isDrawing) {
+          //  processGcodeFile();
+          //}
         }
       });
     } catch(e) {
