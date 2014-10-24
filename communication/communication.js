@@ -117,10 +117,10 @@ var Communication = function() {
       var cmd = cmdBuffer.splice(0, 1);
       if(cmd.length){
         self.log('yo: ' + cmd + ' ' + cmd.indexOf('M200'));
-        if(cmd.indexOf('M200')) {
+        if(cmd.indexOf('M200') > -1) {
           self.isDrawing = true;
           self.emit(self.EVENT.DRAW_STARTED);
-        } else if(cmd.indexOf('M201')) {
+        } else if(cmd.indexOf('M201') > -1) {
           self.isDrawing = false;
           self.emit(self.EVENT.DRAW_FINISHED);
         } else {
