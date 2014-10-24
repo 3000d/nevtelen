@@ -14,8 +14,6 @@ var GcodeConverter = function(params) {
   this.convert = function(json) {
     var gcode = [];
 
-    gcode.push(settings.startOfFile);
-
     for(var f=0; f < json["features"].length; f++){
       var geo = json["features"][f]["geometry"];
       switch(geo["type"]) {
@@ -52,8 +50,9 @@ var GcodeConverter = function(params) {
     }
 
     gcode.splice(0, "G00 F" + settings.feedrate + " Z" + settings.zOff, 'G00 F'+settings.feedrate+' X0 Y0');
+    gcode.splice(0, settings.startOfFile); // start of gcode
     gcode.push("G00 F" + settings.feedrate + " Z" + settings.zOff, 'G00 F'+settings.feedrate+' X0 Y0');
-    gcode.push(settings.endOfFile);
+    gcode.push(settings.endOfFile); // end of gcode
     return gcode.join("\n");
   };
 
