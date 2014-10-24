@@ -26,7 +26,7 @@ public:
     ofxCv::ObjectFinder faceFinder;
    void setup(){
 
-    faceFinder.setup("haarcascade_frontalface_alt.xml");
+    faceFinder.setup("haarcascade_frontalface_alt2.xml");
     faceFinder.setPreset(ofxCv::ObjectFinder::Accurate);
     faceFinder.setFindBiggestObject(true);
     faceFinder.setCannyPruning(true);

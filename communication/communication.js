@@ -140,7 +140,11 @@ var Communication = function() {
     emitEventOnFinish = true;
 
     var oldSize = cmdBuffer.length;
-    cmdBuffer = cmdBuffer.concat(text.split('\n'));
+    try {
+      cmdBuffer = cmdBuffer.concat(text.split('\n'));
+    } catch(e) {
+      self.Log.error('Could not split gcode');
+    }
     self.Log.debug('Pushed ' + (cmdBuffer.length - oldSize) + ' new command in Buffer');
   };
 
