@@ -83,7 +83,7 @@ var Communication = function() {
           }
         });
 
-        serial.on('error', function(error){
+        serial.on('error', function(error) {
           self.emit(self.EVENT.DISCONNECTED);
           self.Log.error('ERROR + serial error - disconnected \n' + error);
           isConnected = false;
