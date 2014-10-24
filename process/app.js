@@ -134,15 +134,15 @@ var processGcodeFile = function(removeLast) {
 
   if(gcode) {
     // start debug code
-    drawbot.isDrawing = true;
-    drawbot.emit('drawStarted');
-    setTimeout(function() {
-      drawbot.isDrawing = false;
-      drawbot.emit('drawFinished');
-    }, 5000);
+    //drawbot.isDrawing = true;
+    //drawbot.emit('drawStarted');
+    //setTimeout(function() {
+    //  drawbot.isDrawing = false;
+    //  drawbot.emit('drawFinished');
+    //}, 5000);
     // end debug code
 
-    //drawbot.batch(gcode);
+    drawbot.batch(gcode);
   }
 };
 
