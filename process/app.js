@@ -77,6 +77,9 @@ drawbot.getSerialPortList(function(ports) {
             }
             //drawbot.log('-- Json file created: ' + jsonFileName);
           });
+        }else
+        {
+          drawbot.Log.debug('compare : discard');
         }
       }
     });
