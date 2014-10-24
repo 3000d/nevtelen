@@ -6,7 +6,7 @@
 #include "nevtelenUtils.h"
 #include "ofxOsc.h"
 
-#define PORT 12345
+#define PORT 3333
 
 
 class ofApp : public ofBaseApp{
