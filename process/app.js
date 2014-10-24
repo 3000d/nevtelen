@@ -86,6 +86,9 @@ drawbot.getSerialPortList(function(ports) {
           {
             drawbot.Log.debug('gotit' + strerr.split(' ')[0]);
             exec(crop, function(error, stdout, strerr){
+              drawbot.Log.error(crop);
+              drawbot.Log.error("error " + error);
+              drawbot.Log.error("crop " + strerr);
               exec(potrace, function(error, stdout, stderr) {
                 if((error && error !== 'null') || stderr) {
                   drawbot.Log.error('potrace ' + error);
