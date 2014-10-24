@@ -22,6 +22,7 @@ var webServer = new WebServer(drawbot);
 webServer.startServer();
 
 var gcodeFiles = [];
+var processedGcodeFiles = [];
 var currentGcodeFile;
 
 var bmpWatcher = new Watcher({
@@ -116,22 +117,32 @@ var processGcodeFile = function(removeLast) {
     }
     moveGcodeFile(currentGcodeFile);
   }
-  var gcodeFile;
+  var gcode, gcodeFile;
   if(gcodeFiles.length) {
     gcodeFile = gcodeFiles[gcodeFiles.length - 1];
     currentGcodeFile = gcodeFile;
 
-    var gcode = fs.readFileSync(root.data_gcode + '/' + gcodeFile, 'utf8');
+    gcode = fs.readFileSync(root.data_gcode + '/' + gcodeFile, 'utf8');
+    if(gcode) drawbot.Log.debug('[PROCESS] DRAW NEW : ' + gcodeFile);
+  } else {
+    var randIndex = Math.floor(Math.random() * processedGcodeFiles.length);
+    gcodeFile = processedGcodeFiles[randIndex];
+    gcode = fs.readFileSync(root.data_gcode_processed + '/' + processedGcodeFiles[randIndex]);
+    currentGcodeFile = null;
+    if(gcode) drawbot.Log.debug('[PROCESS] DRAW OLD : ' + gcodeFile);
+  }
 
-    if(gcode) {
-      console.log('PROCESS ' + gcodeFile);
-      //drawbot.isDrawing = true;
-      //setTimeout(function() {
-      //  drawbot.isDrawing = false;
-      //  drawbot.emit('drawFinished');
-      //}, 10000);
-      drawbot.batch(gcode);
-    }
+  if(gcode) {
+    // start debug code
+    drawbot.isDrawing = true;
+    drawbot.emit('drawStarted');
+    setTimeout(function() {
+      drawbot.isDrawing = false;
+      drawbot.emit('drawFinished');
+    }, 5000);
+    // end debug code
+
+    //drawbot.batch(gcode);
   }
 };
 
@@ -156,4 +167,5 @@ var processGcodeFile = function(removeLast) {
 
 var moveGcodeFile = function(gcodeFileName) {
   fs.renameSync(root.data_gcode + '/' + gcodeFileName, root.data_gcode_processed + '/' + gcodeFileName);
+  processedGcodeFiles.push(gcodeFileName);
 };
