@@ -17,7 +17,7 @@ var path = require('path'),
   WebServer = require(root.web + '/web');
 
 var drawbot = new Communication();
-var gcodeConverter = new GcodeConverter({feedrate: 1.5});
+var gcodeConverter = new GcodeConverter({feedrate: 6});
 var webServer = new WebServer(drawbot);
 webServer.startServer();
 
@@ -85,7 +85,7 @@ drawbot.getSerialPortList(function(ports) {
         if(err) {
           drawbot.Log.error('Could not save to gcode');
         } else {
-          drawbot.log('-- GCode: ' + gcodeFileName);
+          drawbot.Log.('-- GCode: ' + gcodeFileName);
           gcodeFiles.push(gcodeFileName);
 
           if(!isProcessStarted) {
