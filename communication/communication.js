@@ -68,9 +68,10 @@ var Communication = function() {
 
         serial.on('data', function(data) {
           //path is clear
+          self.log('IN: ' + data);
 
           if(data.length > 2){
-            self.log('IN: ' + data);
+            //self.log('IN: ' + data);
           }else if(data.indexOf(">") >= 0) // TODO : better string
           {
             //roger
