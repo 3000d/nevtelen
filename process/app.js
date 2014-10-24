@@ -98,7 +98,6 @@ drawbot.getSerialPortList(function(ports) {
   drawbot.on('drawStarted', function() {
     drawbot.log('-- DRAW STARTED');
     osc.sendSOD();
-    processGcodeFile(true);
   });
 
   drawbot.on('drawFinished', function() {
