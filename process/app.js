@@ -61,7 +61,7 @@ drawbot.getSerialPortList(function(ports) {
     var compare = 'compare -metric mae ' + root.process + '/background.bmp ' + evt.path + ' ' + root.data_temp + '/diff.bmp';
     var size = evt.path.split('_');
     var w = size[3];
-    var h = size[4];
+    var h = size[4].split('.')[0];
     var x = size[1];
     var y = size[2];
     var modw = w/10;
