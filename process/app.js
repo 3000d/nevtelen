@@ -67,7 +67,7 @@ drawbot.getSerialPortList(function(ports) {
         drawbot.Log.error(error);
         return;
       }
-      drawbot.log('-- Json file created: ' + jsonFileName);
+      //drawbot.log('-- Json file created: ' + jsonFileName);
     });
   });
 
@@ -85,7 +85,7 @@ drawbot.getSerialPortList(function(ports) {
         if(err) {
           drawbot.Log.error('Could not save to gcode');
         } else {
-          drawbot.log('-- GCode created: ' + gcodeFileName);
+          drawbot.log('-- GCode: ' + gcodeFileName);
           gcodeFiles.push(gcodeFileName);
 
           if(!isProcessStarted) {
