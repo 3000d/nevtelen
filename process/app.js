@@ -60,13 +60,13 @@ drawbot.getSerialPortList(function(ports) {
     var potrace = 'potrace -i -b geojson -k 0.4 -t 60 -o ' + (root.data_json + '/' + jsonFileName) + ' ' + evt.path;
     var compare = 'compare -metric mae ' + root.process + '/background.bmp ' + evt.path + ' ' + root.data_temp + '/diff.bmp';
     var size = evt.path.split('_');
-    var w = size[3];
-    var h = size[4].split('.')[0];
-    var x = size[1];
-    var y = size[2];
+    var w = parseInt(size[3],10));
+    var h = parseInt(size[4].split('.')[0]);
+    var x = parseInt(size[1]);
+    var y = parseInt(size[2]);
     var modw = w/10;
     var modh = h/10;
-    var crop = 'convert -crop + ' + (w+modw) + 'x' + (h+modh) + '+' + (x-modw/2) + '+' + (y-modh/2) + ' ' + evt.path + ' ' +evt.path;
+    var crop = 'convert -crop ' + (w+modw) + 'x' + (h+modh) + '+' + (x-modw/2) + '+' + (y-modh/2) + ' ' + evt.path + ' ' +evt.path;
 
     exec(compare, function(error, stdout, strerr){
       if((error && error !== 'null'))
