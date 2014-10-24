@@ -69,11 +69,8 @@ drawbot.getSerialPortList(function(ports) {
         return;
       }else
       {
-        console.log('out ' + stdout);
-        console.log('strout ' + strerr);
-        console.log('err ' + error);
-        drawbot.Log.debug('compare says: ' + stdout);
-        if(stdout.split(' ')[0] > 1250)
+        drawbot.Log.debug('compare says: ' + strerr);
+        if(strerr.split(' ')[0] > 1250)
         {
           drawbot.Log.debug('gotit');
           exec(potrace, function(error, stdout, stderr) {
