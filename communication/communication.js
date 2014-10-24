@@ -116,11 +116,11 @@ var Communication = function() {
     if(serial) {
       var cmd = cmdBuffer.splice(0, 1);
       if(cmd.length){
-        if(cmd === 'M200') {
+        if(cmd.indexOf('M200')) {
           self.isDrawing = true;
           self.log(self.EVENT.DRAW_STARTED);
           self.emit(self.EVENT.DRAW_STARTED);
-        } else if(cmd === 'M201') {
+        } else if(cmd.indexOf('M201')) {
           self.isDrawing = false;
           self.emit(self.EVENT.DRAW_FINISHED);
         } else {
