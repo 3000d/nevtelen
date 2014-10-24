@@ -79,7 +79,7 @@ drawbot.getSerialPortList(function(ports) {
           });
         }else
         {
-          fs.unlinkSync(evt.path);
+          //fs.unlinkSync(evt.path);
           drawbot.Log.debug('compare : discard');
         }
       }
