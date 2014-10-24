@@ -85,7 +85,7 @@ drawbot.getSerialPortList(function(ports) {
         if(err) {
           drawbot.Log.error('Could not save to gcode');
         } else {
-          drawbot.Log.('-- GCode: ' + gcodeFileName);
+          drawbot.Log.error('-- GCode: ' + gcodeFileName);
           gcodeFiles.push(gcodeFileName);
 
           if(!isProcessStarted) {
