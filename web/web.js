@@ -1,4 +1,5 @@
 var express = require('express');
+var serveIndex = require('serve-index');
 var app = express();
 var http = require('http').Server(app);
 var util = require('util');
@@ -11,6 +12,7 @@ var gcodeConverter = new GcodeConverter({});
 var Web = function(drawbot) {
   app.use(express.static(__dirname + '/public_html/assets'));
   app.use(express.static(root.data));
+  app.use(serveIndex(root.data));
 
   app.get('/', function (req, res) {
     res.sendFile(__dirname + '/public_html/index.html');
