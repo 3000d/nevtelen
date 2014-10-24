@@ -53,6 +53,7 @@ var GcodeConverter = function(params) {
     gcode.splice(0, settings.startOfFile); // start of gcode
     gcode.push("G00 F" + settings.feedrate + " Z" + settings.zOff, 'G00 F'+settings.feedrate+' X0 Y0');
     gcode.push(settings.endOfFile); // end of gcode
+    // of gcode
     return gcode.join("\n");
   };
 

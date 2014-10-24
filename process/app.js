@@ -17,7 +17,7 @@ var path = require('path'),
   WebServer = require(root.web + '/web');
 
 var drawbot = new Communication();
-var gcodeConverter = new GcodeConverter({});
+var gcodeConverter = new GcodeConverter({feedrate: 1.5});
 var webServer = new WebServer(drawbot);
 webServer.startServer();
 
