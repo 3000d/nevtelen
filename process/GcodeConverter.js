@@ -49,8 +49,7 @@ var GcodeConverter = function(params) {
       gcode = centerGcode(gcode);
     }
 
-    gcode.splice(0, "G00 F" + settings.feedrate + " Z" + settings.zOff, 'G00 F'+settings.feedrate+' X0 Y0');
-    gcode.push(settings.startOfFile); // start of gcode
+    gcode.splice(0, "G00 F" + settings.feedrate + " Z" + settings.zOff, settings.startOfFile, 'G00 F'+settings.feedrate+' X0 Y0');
     gcode.push("G00 F" + settings.feedrate + " Z" + settings.zOff, 'G00 F'+settings.feedrate+' X0 Y0');
     gcode.push(settings.endOfFile); // end of gcode
     // of gcode
