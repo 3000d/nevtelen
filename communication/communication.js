@@ -118,6 +118,7 @@ var Communication = function() {
       if(cmd.length){
         if(cmd === 'M200') {
           self.isDrawing = true;
+          self.log(self.EVENT.DRAW_STARTED);
           self.emit(self.EVENT.DRAW_STARTED);
         } else if(cmd === 'M201') {
           self.isDrawing = false;
