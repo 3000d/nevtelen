@@ -116,19 +116,19 @@ var Communication = function() {
     if(serial) {
       var cmd = cmdBuffer.splice(0, 1);
       if(cmd.length){
-        self.Log.debug('SENDING : ' + cmd);
-        serial.write(cmd + '\n', function(err, results) {
-          if(err) self.Log.error('ERROR ' + err);
-        });
       }
 
       if(cmd === 'M200') {
         self.isDrawing = true;
         self.emit(self.EVENT.DRAW_STARTED);
-      }
-      if(cmd === 'M201') {
+      } else if(cmd === 'M201') {
         self.isDrawing = false;
         self.emit(self.EVENT.DRAW_FINISHED);
+      } else {
+        self.Log.debug('SENDING : ' + cmd);
+        serial.write(cmd + '\n', function(err, results) {
+          if(err) self.Log.error('ERROR ' + err);
+        });
       }
     }
   };
