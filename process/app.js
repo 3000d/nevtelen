@@ -61,9 +61,9 @@ drawbot.getSerialPortList(function(ports) {
     var compare = 'compare -metric mae ' + root.data_bmp + '/background.bmp ' + evt.path + ' diff.bmp';
 
     exec(compare, function(error, stdout, strerr){
-      if((error && error !== 'null') || strerr)
+      if((error && error !== 'null'))
       {
-        drawbot.Log.error('compare : ' + error);
+        drawbot.Log.error('compare : error : ' + error);
         return;
       }else
       {
