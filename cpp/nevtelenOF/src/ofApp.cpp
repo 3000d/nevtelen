@@ -16,16 +16,16 @@ bool debug = true;
 void ofApp::setup(){
     receiver.setup(PORT);
 
-    camWidth = 320;
-    camHeight = 240;
+    camWidth = 640;
+    camHeight = 480;
     pixelThreshold = 162;
     mult1=0.98;
     mult2 =0.02;
     fading=0.2;
-    blendMode = 0;
-    exposureSpeed = 0.000126551;
+    blendMode = 1;
+    exposureSpeed = 0.000126552;
     lastFoundId=-1;
-    area_threshold = 0.09;
+    area_threshold = 0.01;
 
     ofEnableAntiAliasing();
     ofSetWindowTitle("Nevtelen - LightPainter (v.0.1)");
@@ -90,7 +90,7 @@ void ofApp::update(){
         receiver.getNextMessage(&m);
         if(m.getAddress() == "/EOD" && m.getArgAsString(0) == "true"){
             saveImg();
-            clear();
+           // clear();
         }
 	if(m.getAddress() == "/SOD" && m.getArgAsString(0) == "true"){
 		saveImg();
@@ -101,14 +101,15 @@ void ofApp::update(){
     int totalPixels = camWidth*camHeight*3;
 
     cam1.update();
-
+// capte les visages
     if(cam1.isFrameNew()){
         faceTracker.update(cam1);
         image = faceTracker.getEdge(100,100);
 
         if(faceTracker.getFaceFound()){
+		lastFoundId=faceTracker.getLabel();
             if( ! faceTracker.getFaceFinder().getTracker().existsPrevious(lastFoundId)
-                    && faceTracker.getFace().getArea() > (camWidth*camHeight)*area_threshold){
+                   /* && faceTracker.getFace().getArea() > (camWidth*camHeight)*area_threshold*/){
                         ofImage tmp;
                         float x,y,w,h;
                         x =faceTracker.getFace().getX();
@@ -116,14 +117,16 @@ void ofApp::update(){
                         w = faceTracker.getFace().getWidth();
                         h = faceTracker.getFace().getHeight();
                         tmp.setFromPixels(image.getPixelsRef());
-                        tmp.crop(x,y,w,h);
-                        tmp.resize(w*2,h*2);
-                        tmp.saveImage("../../../../data/bmp/face_"+ofGetTimestampString()+".bmp");
+                        //tmp.crop(x,y,w,h);
+                        //tmp.resize(w*2,h*2);
+			String file_name = "../../../../data/bmp/face-";
+			String dim = ofToString(x)+"_"+ofToString(y)+"_"+ofToString(w)+"_"+ofToString(h);
+                        tmp.saveImage(file_name+ofGetTimestampString()+"_"+dim+".bmp");
                         std::cout << "Image area " << ofToString(faceTracker.getFace().getArea()) << endl;
                         std::cout << "Saving image" << endl;
                     }
 
-                    lastFoundId = faceTracker.getLabel();
+//                    lastFoundId = faceTracker.getLabel();
 
             // draw mosaic ?
            ofSetLineWidth(1);
@@ -132,7 +135,7 @@ void ofApp::update(){
                //r.scale(0.5);
                float a = r.getArea();
                if(a > 0.0f ){
-                   int grid = ofMap(r.getArea(),0,((camWidth*camHeight)/2),50,10);
+                   int grid = ofMap(r.getArea(),0,((camWidth*camHeight)),50,10);
                    float h = r.getHeight();
                    float w = r.getWidth();
                    const unsigned char* pix = cam1.getPixels();
@@ -159,7 +162,7 @@ void ofApp::update(){
                }
         }
     }
-
+// capte la led
     cam2.update();
     if(cam2.isFrameNew()){
         newPixels = cam2.getPixels();
@@ -269,6 +272,12 @@ void ofApp::keyPressed(int key){
             exposureSpeed*=0.8;
 
             break;
+	case OF_KEY_LEFT:
+	     pixelThreshold--;
+	     break;
+	case OF_KEY_RIGHT:
+	     pixelThreshold++;
+	     break;
         case ' ':
             clear();
             break;
@@ -302,7 +311,14 @@ void ofApp::keyPressed(int key){
             if (blendMode >= 6) {
                 blendMode=0;
             }
+	   break;
         }
+	case 'y':{
+		mult2+=0.1;
+	}
+	case 'h':{
+		mult2-=0.1;
+	}	
         case 'i':{
             debug = !debug;
         }
