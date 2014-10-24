@@ -47,7 +47,10 @@ drawbot.getSerialPortList(function(ports) {
   //processGcodeFile();
 
   bmpWatcher.on('fileAdded', function(evt) {
-    var jsonFileName = 'face_' + Math.round(new Date().getTime() / 1000) + '.json';
+    var fileName = evt.path.split('/');
+    fileName = fileName[fileName.length-1].split('.');
+    fileName = fileName[fileName.length-2];
+    var jsonFileName = fileName + '.json';
 
     // potrace -i -b geojson -k 0.4 -t 60 -o outputXXX.json bitmapXXX.BMP
     var cmd = 'potrace -i -b geojson -k 0.4 -t 60 -o ' + (root.data_json + '/' + jsonFileName) + ' ' + evt.path;
@@ -69,7 +72,11 @@ drawbot.getSerialPortList(function(ports) {
     try {
       var json = require(evt.path);
       var gcode = gcodeConverter.convert(json);
-      var gcodeFileName = 'face_' + Math.round(new Date().getTime() / 1000) + '.gcode';
+
+      var fileName = evt.path.split('/');
+      fileName = fileName[fileName.length-1].split('.');
+      fileName = fileName[fileName.length-2];
+      var gcodeFileName = fileName + '.gcode';
 
       fs.writeFile(root.data_gcode + '/' + gcodeFileName, gcode, function(err) {
         if(err) {
