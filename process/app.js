@@ -69,6 +69,9 @@ drawbot.getSerialPortList(function(ports) {
         return;
       }else
       {
+        console.log(stdout);
+        console.log(strerr);
+        console.log(error);
         drawbot.Log.debug('compare says: ' + stdout);
         if(stdout.split(' ')[0] > 1250)
         {
