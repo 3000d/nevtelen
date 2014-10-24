@@ -135,7 +135,7 @@ void ofApp::update(){
                //r.scale(0.5);
                float a = r.getArea();
                if(a > 0.0f ){
-                   int grid = ofMap(r.getArea(),0,((camWidth*camHeight)),50,10);
+                   int grid = 40;//ofMap(r.getArea(),0,((camWidth*camHeight)),50,10);
                    float h = r.getHeight();
                    float w = r.getWidth();
                    const unsigned char* pix = cam1.getPixels();
@@ -239,21 +239,17 @@ void ofApp::draw(){
     ofBackground(0,0,0);
     cam1.draw(0,0, w, h);
     if(faceTracker.getFaceFound()){
-        faceFbo.draw(0,0);
+        faceFbo.draw(0,0,w,h);
     }
 
     cam2.draw(w, 0, w, h);
 
     longExposureImage.draw(w,h, w,h);
     image.draw(0,h,w,h);
-    if(faceTracker.getFaceFound()){
-         faceTracker.draw();
-
-    }
 
     if(debug){
         ofDrawBitmapStringHighlight("Blend Mode "+ofToString(blendMode), 10,ofGetHeight()-180);
-        ofDrawBitmapStringHighlight("max pixel Age "+ofToString(maxPixelAge), 10,ofGetHeight()-160);
+        ofDrawBitmapStringHighlight("mult "+ofToString(mult2), 10,ofGetHeight()-160);
         ofDrawBitmapStringHighlight("edge_min "+ofToString(edge_min)+" edge_max "+ofToString(edge_max), 10,ofGetHeight()-140);
         ofDrawBitmapStringHighlight("pixelThreshold "+ofToString(pixelThreshold), 10,ofGetHeight()-120);
         ofDrawBitmapStringHighlight("exposure speed "+ofToString(exposureSpeed), 10,ofGetHeight()-100);
