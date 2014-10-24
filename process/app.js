@@ -56,18 +56,29 @@ drawbot.getSerialPortList(function(ports) {
     var jsonFileName = fileName + '.json';
 
     // potrace -i -b geojson -k 0.4 -t 60 -o outputXXX.json bitmapXXX.BMP
-    var cmd = 'potrace -i -b geojson -k 0.4 -t 60 -o ' + (root.data_json + '/' + jsonFileName) + ' ' + evt.path;
 
-    exec(cmd, function(error, stdout, stderr) {
-      if(error && error !== 'null') {
-        drawbot.Log.error(error);
+    var potrace = 'potrace -i -b geojson -k 0.4 -t 60 -o ' + (root.data_json + '/' + jsonFileName) + ' ' + evt.path;
+    var compare = 'compare -metric mae background.bmp ' + evt.path + ' diff.bmp';
+
+    exec(compare, function(error, stdout, strerr){
+      if((error && error !== 'null') || strerr)
+      {
+        drawbot.Log.error('compare : ' + error);
         return;
+      }else
+      {
+        if(stout.split(' ')[0] > 1400)
+        {
+          drawbot.log('compare : got it ' + stdout[0]);
+          exec(potrace, function(error, stdout, stderr) {
+            if((error && error !== 'null') || stderr) {
+              drawbot.Log.error('potrace ' + error);
+              return;
+            }
+            //drawbot.log('-- Json file created: ' + jsonFileName);
+          });
+        }
       }
-      if(stderr) {
-        drawbot.Log.error(error);
-        return;
-      }
-      //drawbot.log('-- Json file created: ' + jsonFileName);
     });
   });
 
