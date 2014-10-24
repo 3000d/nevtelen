@@ -25,6 +25,8 @@ var gcodeFiles = [];
 var processedGcodeFiles = [];
 var currentGcodeFile;
 
+var isProcessStarted = false;
+
 var bmpWatcher = new Watcher({
   folder: path.resolve(root.data_bmp),
   extensions: ['bmp', 'BMP']
@@ -86,9 +88,10 @@ drawbot.getSerialPortList(function(ports) {
           drawbot.log('-- GCode created: ' + gcodeFileName);
           gcodeFiles.push(gcodeFileName);
 
-          //if(!drawbot.isDrawing) {
-          //  processGcodeFile();
-          //}
+          if(!isProcessStarted) {
+            processGcodeFile();
+            isProcessStarted = true;
+          }
         }
       });
     } catch(e) {
