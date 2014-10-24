@@ -118,7 +118,6 @@ var Communication = function() {
       if(cmd.length){
         if(cmd.indexOf('M200')) {
           self.isDrawing = true;
-          self.log(self.EVENT.DRAW_STARTED);
           self.emit(self.EVENT.DRAW_STARTED);
         } else if(cmd.indexOf('M201')) {
           self.isDrawing = false;
