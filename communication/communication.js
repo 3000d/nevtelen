@@ -68,7 +68,7 @@ var Communication = function() {
 
         serial.on('data', function(data) {
           //path is clear
-          self.log('IN: ' + data);
+          //self.log('IN: ' + data);
 
           if(data.length > 2){
             //self.log('IN: ' + data);
@@ -124,7 +124,7 @@ var Communication = function() {
           self.isDrawing = false;
           self.emit(self.EVENT.DRAW_FINISHED);
         } else {
-          self.Log.debug('SENDING : ' + cmd);
+          //self.Log.debug('SENDING : ' + cmd);
           serial.write(cmd + '\n', function(err, results) {
             if(err) self.Log.error('ERROR ' + err);
           });
