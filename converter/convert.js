@@ -12,7 +12,7 @@
 var root = require('../root'),
   fs = require('fs'),
   exec = require('child_process').exec;
-  GcodeConverter = require(root.process + '/GcodeConverter');
+GcodeConverter = require(root.process + '/GcodeConverter');
 
 var args = process.argv.slice(2);
 var gcodeConverter = new GcodeConverter({feedrate: 2});
@@ -28,25 +28,19 @@ var fileName = fileNameArr[fileNameArr.length-2];
 var fileExtension = fileNameArr[fileNameArr.length - 1];
 var sourceFile = root.data_source + '/' + sourceFileName;
 
-if(fileExtension !== 'bmp') {
-  convertToBmp(root.data_temp + '/' + fileName + '.bmp', function() {
-    convertToSvg();
-    convertToJson(function() {
-      convertToGcode();
-    });
-  });
-} else {
+
+// start here
+
+convertToBmp(function() {
   convertToSvg();
   convertToJson(function() {
     convertToGcode();
   });
-}
+});
 
-
-
-function convertToBmp(dest, callback) {
-  var convertToBmp = 'convert ' + sourceFile + ' ' + dest;
-  sourceFile = dest;
+function convertToBmp(callback) {
+  var convertToBmp = 'convert ' + sourceFile + ' -resize 640x480 ' + root.data_temp + '/' + fileName + '.bmp';
+  sourceFile = root.data_temp + '/' + fileName + '.bmp';
   _doExec(convertToBmp, callback);
 }
 

@@ -2,10 +2,7 @@
 .idea
 
 # Data
-data/gcode
-data/gcode_processed
-data/bmp
-data/json
+data
 
 !.gitkeep
 
