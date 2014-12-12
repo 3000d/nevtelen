@@ -57,8 +57,8 @@ drawbot.getSerialPortList(function(ports) {
 
     // potrace -i -b geojson -k 0.4 -t 60 -o outputXXX.json bitmapXXX.BMP
 
-    var potrace = 'potrace -i -b geojson -k 0.4 -t 10 -o ' + (root.data_json + '/' + jsonFileName) + ' ' + evt.path;
-    var potrace2 = 'potrace -k 0.4 -t 10 -o ' + (root.data + '/svg' + '/' + fileName + '.svg') + ' -s ' + evt.path;
+    var potrace = 'potrace -i -b geojson -k 0.4 -t 60 -o ' + (root.data_json + '/' + jsonFileName) + ' ' + evt.path;
+    var potrace2 = 'potrace -k 0.4 -t 60 -o ' + (root.data + '/svg' + '/' + fileName + '.svg') + ' -s ' + evt.path;
     var compare = 'compare -metric mae ' + root.process + '/background.bmp ' + evt.path + ' ' + root.data_temp + '/diff.bmp';
     var size = evt.path.split('.')[0].split('-')[7].split('_');
     var w = size[3];
