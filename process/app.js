@@ -26,6 +26,7 @@ drawbot.getSerialPortList(function(ports) {
   try {
     drawbot.Log.debug("drawbot - serial port list");
     drawbot.connect(process.argv[2] || ports[0].comName);
+    processGcodeFile();
   } catch(e) {
     drawbot.Log.debug("drawbot - no serial port");
 
@@ -36,7 +37,6 @@ drawbot.getSerialPortList(function(ports) {
 
   drawbot.on('connected', function() {
     drawbot.Log.debug("drawbot - connected");
-    processGcodeFile();
   });
 
 
