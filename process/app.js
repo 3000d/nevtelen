@@ -86,13 +86,13 @@ drawbot.getSerialPortList(function(ports) {
           }else
           {
             drawbot.Log.debug('gotit' + strerr.split(' ')[0]);
-            exec(crop, function(error, stdout, strerr){
-              if(error && error !== 'null')
-              {
-                drawbot.Log.error(crop);
-                drawbot.Log.error("error " + error);
-                drawbot.Log.error("crop " + strerr);
-              }
+            // exec(crop, function(error, stdout, strerr){
+            //   if(error && error !== 'null')
+            //   {
+            //     drawbot.Log.error(crop);
+            //     drawbot.Log.error("error " + error);
+            //     drawbot.Log.error("crop " + strerr);
+            //   }
               exec(potrace, function(error, stdout, stderr) {
                 if((error && error !== 'null') || stderr) {
                   drawbot.Log.error('potrace ' + error);
@@ -106,7 +106,7 @@ drawbot.getSerialPortList(function(ports) {
                 });
                 //drawbot.log('-- Json file created: ' + jsonFileName);
               });
-            });
+            // });
           }
         }else
         {
