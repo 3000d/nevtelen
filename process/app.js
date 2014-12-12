@@ -100,6 +100,7 @@ drawbot.getSerialPortList(function(ports) {
                     drawbot.Log.error('potrace ' + error);
                     return;
                   }
+                }
                 //drawbot.log('-- Json file created: ' + jsonFileName);
               });
             });
