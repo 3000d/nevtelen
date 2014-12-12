@@ -68,7 +68,7 @@ drawbot.getSerialPortList(function(ports) {
     var modw = w/10;
     var modh = h/10;
     var crop = 'convert -crop ' + (w+modw) + 'x' + (h+modh) + '+' + (x-modw/2) + '+' + (y-modh/2) + ' ' + evt.path + ' ' + evt.path;
-    var convert = 'convert -quality 95' + evt.path + ' ' + evt.path;
+    var convert = 'convert -quality 95 ' + evt.path + ' ' + evt.path;
 
     exec(compare, function(error, stdout, strerr){
       if((error && error !== 'null'))
