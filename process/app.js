@@ -70,7 +70,7 @@ drawbot.getSerialPortList(function(ports) {
     var crop = 'convert -crop ' + (w+modw) + 'x' + (h+modh) + '+' + (x-modw/2) + '+' + (y-modh/2) + ' ' + evt.path + ' ' + evt.path;
     var convert = 'convert -adaptive-sharpen 10 ' + evt.path + ' ' + evt.path;
 
-    fs.copy(evt.path, root.data + '/bmp_bkg/' + fileName + '.bmp');
+    fs.createReadStream(evt.path).pipe(fs.createWriteStream(root.data + '/bmp_bkg/' + fileName + '.bmp'));
     exec(compare, function(error, stdout, strerr){
       if((error && error !== 'null'))
       {
