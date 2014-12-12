@@ -52,6 +52,7 @@ drawbot.getSerialPortList(function(ports) {
 });
 
 var processGcodeFile = function() {
+  drawbot.Log.debug('[PROCESS] begin');
   var gcode, gcodeFile;
   if(gcodeFiles.length) {
     gcodeFile = gcodeFiles[gcodeIterator];
