@@ -137,11 +137,15 @@ var Communication = function() {
    * read batch and push in buffer
    */
   this.batch = function(text) {
+    text = text + '';
     emitEventOnFinish = true;
-
-    var oldSize = cmdBuffer.length;
-    cmdBuffer = cmdBuffer.concat(text.split('\n'));
-    self.Log.debug('Pushed ' + (cmdBuffer.length - oldSize) + ' new command in Buffer');
+    try {
+      var oldSize = cmdBuffer.length;
+      cmdBuffer = cmdBuffer.concat(text.split('\n'));
+      self.Log.debug('Pushed ' + (cmdBuffer.length - oldSize) + ' new command in Buffer');
+    } catch(e) {
+      self.Log.error('[BATCH] could not push gcode commands to buffer');
+    }
   };
 
   /**
