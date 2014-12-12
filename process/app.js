@@ -68,6 +68,7 @@ drawbot.getSerialPortList(function(ports) {
     var modw = w/10;
     var modh = h/10;
     var crop = 'convert -crop ' + (w+modw) + 'x' + (h+modh) + '+' + (x-modw/2) + '+' + (y-modh/2) + ' ' + evt.path + ' ' + evt.path;
+    var crop = 'convert -quality 95' + evt.path + ' ' + evt.path;
 
     exec(compare, function(error, stdout, strerr){
       if((error && error !== 'null'))
@@ -87,26 +88,26 @@ drawbot.getSerialPortList(function(ports) {
           {
             drawbot.Log.debug('gotit' + strerr.split(' ')[0]);
             exec(crop, function(error, stdout, strerr){
-              if(error && error !== 'null')
-              {
-                 drawbot.Log.error(crop);
-                 drawbot.Log.error("error " + error);
-                 drawbot.Log.error("crop " + strerr);
-              }
-              setTimeout(function(){
-                exec(potrace, function(error, stdout, stderr) {
-                  if((error && error !== 'null') || stderr) {
-                    drawbot.Log.error('potrace ' + error);
-                    return;
+              exec(convert, function(error, stdout, strerr){
+                if(error && error !== 'null')
+                  {
+                    drawbot.Log.error(crop);
+                    drawbot.Log.error("error " + error);
+                    drawbot.Log.error("crop " + strerr);
                   }
-                  exec(potrace2, function(error, stdout, stderr) {
+                  exec(potrace, function(error, stdout, stderr) {
                     if((error && error !== 'null') || stderr) {
                       drawbot.Log.error('potrace ' + error);
                       return;
                     }
+                    exec(potrace2, function(error, stdout, stderr) {
+                      if((error && error !== 'null') || stderr) {
+                        drawbot.Log.error('potrace ' + error);
+                        return;
+                      }
+                    });
                   });
-                }, 100);
-                //drawbot.log('-- Json file created: ' + jsonFileName);
+                  //drawbot.log('-- Json file created: ' + jsonFileName);
               });
             });
           }
