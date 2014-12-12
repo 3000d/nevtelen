@@ -59,7 +59,7 @@ drawbot.getSerialPortList(function(ports) {
 
     var potrace = 'potrace -i -b geojson -k 0.4 -t 60 -o ' + (root.data_json + '/' + jsonFileName) + ' ' + evt.path;
     var compare = 'compare -metric mae ' + root.process + '/background.bmp ' + evt.path + ' ' + root.data_temp + '/diff.bmp';
-    var size = evt.path.split('_');
+    var size = evt.path.split('.')[0].split('-')[7].split('_');
     drawbot.Log.debug(" ");
     drawbot.Log.debug(evt.path);
     drawbot.Log.debug(size);
