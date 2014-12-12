@@ -60,10 +60,6 @@ drawbot.getSerialPortList(function(ports) {
     var potrace = 'potrace -i -b geojson -k 0.4 -t 60 -o ' + (root.data_json + '/' + jsonFileName) + ' ' + evt.path;
     var compare = 'compare -metric mae ' + root.process + '/background.bmp ' + evt.path + ' ' + root.data_temp + '/diff.bmp';
     var size = evt.path.split('.')[0].split('-')[7].split('_');
-    drawbot.Log.debug(" ");
-    drawbot.Log.debug(evt.path);
-    drawbot.Log.debug(size);
-    drawbot.Log.debug(" ");
     var w = size[3];
     var h = size[4];
     var x = size[1];
@@ -104,7 +100,7 @@ drawbot.getSerialPortList(function(ports) {
           }
         }else
         {
-          //fs.unlinkSync(evt.path);
+          fs.unlinkSync(evt.path);
           drawbot.Log.debug('compare : discard');
         }
       }
