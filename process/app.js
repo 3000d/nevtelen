@@ -65,9 +65,10 @@ drawbot.getSerialPortList(function(ports) {
     var h = size[4];
     var x = size[1];
     var y = size[2];
-    var modw = w/10;
-    var modh = h/10;
-    var crop = 'convert -crop ' + (w+modw) + 'x' + (h+modh) + '+' + (x-modw/2) + '+' + (y-modh/2) + ' ' + evt.path + ' ' + evt.path;
+    //var modw = w/10;
+    //var modh = h/10;
+    //var crop = 'convert -crop ' + (w+modw) + 'x' + (h+modh) + '+' + (x-modw/2) + '+' + (y-modh/2) + ' ' + evt.path + ' ' + evt.path;
+    var crop = 'convert -crop ' + (w) + 'x' + (h) + ' ' + evt.path + ' ' + evt.path;
 
     exec(compare, function(error, stdout, strerr){
       if((error && error !== 'null'))
@@ -86,13 +87,13 @@ drawbot.getSerialPortList(function(ports) {
           }else
           {
             drawbot.Log.debug('gotit' + strerr.split(' ')[0]);
-            // exec(crop, function(error, stdout, strerr){
-            //   if(error && error !== 'null')
-            //   {
-            //     drawbot.Log.error(crop);
-            //     drawbot.Log.error("error " + error);
-            //     drawbot.Log.error("crop " + strerr);
-            //   }
+            exec(crop, function(error, stdout, strerr){
+               if(error && error !== 'null')
+               {
+                 drawbot.Log.error(crop);
+                 drawbot.Log.error("error " + error);
+                 drawbot.Log.error("crop " + strerr);
+               }
               exec(potrace, function(error, stdout, stderr) {
                 if((error && error !== 'null') || stderr) {
                   drawbot.Log.error('potrace ' + error);
@@ -106,7 +107,7 @@ drawbot.getSerialPortList(function(ports) {
                 });
                 //drawbot.log('-- Json file created: ' + jsonFileName);
               });
-            // });
+            });
           }
         }else
         {
